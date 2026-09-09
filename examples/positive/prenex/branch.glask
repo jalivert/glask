@@ -1,0 +1,22 @@
+module Main where
+{ infixl 5 +
+
+; class Num a where
+  { (+) :: a -> a -> a }
+
+; instance Num Int where
+  { (+) x y = int#+ (x, y) }
+
+; data Bool = True | False
+
+-- higher-rank branches: constraints/polymorphism nested in results
+; br1 :: forall a . a -> forall b . Int -> b -> Int
+; br1 x y z = y
+
+; br2 :: forall a . a -> Int -> forall b . b -> Int
+; br2 x y z = y
+
+-- the join must not leak rigid skolems (cf. `if'expr3` in prelude.glask)
+; t'if'then = (if True then br1 else br2) 'a' 23 'z'
+; t'if'else = (if False then br1 else br2) 'a' 23 'z'
+}

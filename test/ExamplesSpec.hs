@@ -6,6 +6,7 @@ import Test.Hspec
 import System.IO
 
 import qualified Data.Map.Strict as Map
+import qualified Data.Set as Set
 import Data.Maybe ( isNothing )
 
 import Control.Monad.Extra ( allM )
@@ -14,7 +15,7 @@ import Control.Monad.State ( runState )
 
 import Compiler.Syntax.Term
 import Compiler.Syntax.Literal
-import Compiler.Syntax.Type ( Sigma'Type, Type )
+import Compiler.Syntax.Type ( Sigma'Type, Type, T'V' )
 
 import Compiler.Parser.Parser ( parse'module, parse'decls, parse'expr, parse'type )
 
@@ -42,6 +43,8 @@ import Interpreter.Value (Value (Literal))
 import Compiler.Syntax (Expression, Literal (Lit'Int))
 
 
+
+import Compiler.TypeSystem.Solver.Substitutable ( Term(free'vars) )
 
 import Compiler.TypeSystem.Program ( Program(Program, b'sec'core, environment, store) )
 import Compiler.TypeSystem.Program ( Program( Program, data'declarations, bind'section, methods, method'annotations, b'sec'core, environment, store) )
@@ -181,6 +184,26 @@ spec = do
       r <- eval'within "t'local'rank" file
       r `shouldBe` Right (Literal (Lit'Int 6))
 
+  describe "Testing if with higher-rank branches" $ do
+    let file = "./examples/positive/prenex/branch.glask"
+    it (file ++ " typechecks") $ do
+      r <- type'check file
+      r `shouldBe` Nothing
+
+    it "then-branch selected: t'if'then == 23" $ do
+      r <- eval'within "t'if'then" file
+      r `shouldBe` Right (Literal (Lit'Int 23))
+
+    it "else-branch selected: t'if'else == 23" $ do
+      r <- eval'within "t'if'else" file
+      r `shouldBe` Right (Literal (Lit'Int 23))
+
+    it "branch join leaks no rigid skolems" $ do
+      r <- scheme'within "(if True then br1 else br2)" file
+      case r of
+        Left err -> expectationFailure err
+        Right scheme -> (free'vars scheme :: Set.Set T'V') `shouldBe` Set.empty
+
 
 
 
@@ -220,6 +243,38 @@ type'check file'name = do
 
 eval'within :: String -> String -> IO (Either String Value)
 eval'within expr file'name = load file'name counter expr
+  where counter   = Counter { counter = 0 }
+
+
+scheme'within :: String -> String -> IO (Either String Sigma'Type)
+scheme'within expr file'name = do
+  handle <- openFile file'name ReadMode
+  contents <- hGetContents handle
+
+  case load'declarations contents counter of
+    Left sem'err -> do
+      return $ Left $ show sem'err
+
+    Right (decls, trans'env, counter') -> do
+      case process'declarations decls trans'env counter' of
+        Left err -> do
+          return $ Left $ show err
+
+        Right (program, infer'env, trans'env', counter'', infer'state) -> do
+          let k'e = kind'env infer'env
+          case read'expr expr trans'env'{ TE.kind'context = k'e `Map.union` (TE.kind'context trans'env') } counter'' of
+            Left trans'err -> do
+              return $ Left $ show trans'err
+
+            Right (expr', counter''') -> do
+              let inf'env = infer'env{ I'Env.instances = I'State.instances infer'state, I'Env.overloaded = I'State.overloaded infer'state }
+              case infer'expr'type expr' inf'env counter''' of
+                Left err -> do
+                  return $ Left $ show err
+
+                Right (scheme, _, _) -> do
+                  return $ Right scheme
+
   where counter   = Counter { counter = 0 }
 
 
