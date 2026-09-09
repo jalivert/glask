@@ -46,4 +46,7 @@ module Main where
 ; t'local'rank = let { loc :: Num a => a -> a
                      ; loc = \ x -> x + x }
                  in apply loc 3
+
+-- doubly-nested annotation as a higher-rank argument
+; t'double'ann = apply ((inc :: Num a => a -> a) :: forall x . Num x => x -> x) 3
 }

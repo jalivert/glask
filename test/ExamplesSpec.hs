@@ -184,6 +184,10 @@ spec = do
       r <- eval'within "t'local'rank" file
       r `shouldBe` Right (Literal (Lit'Int 6))
 
+    it "doubly-nested annotation: t'double'ann == 6" $ do
+      r <- eval'within "t'double'ann" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
   describe "Testing if with higher-rank branches" $ do
     let file = "./examples/positive/prenex/branch.glask"
     it (file ++ " typechecks") $ do
