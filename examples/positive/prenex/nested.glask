@@ -36,4 +36,14 @@ module Main where
 
 -- lambda with a method use as a higher-rank argument
 ; t'lambda'method = apply (\ a -> a + a) 3
+
+-- locally-bound annotated binding with a constraint
+; t'local'let = let { loc :: Num a => a -> a
+                    ; loc = \ x -> x + x }
+                in loc 3
+
+-- locally-bound function used as a higher-rank argument
+; t'local'rank = let { loc :: Num a => a -> a
+                     ; loc = \ x -> x + x }
+                 in apply loc 3
 }

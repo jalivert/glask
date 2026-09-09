@@ -173,6 +173,14 @@ spec = do
       r <- eval'within "t'lambda'method" file
       r `shouldBe` Right (Literal (Lit'Int 6))
 
+    it "local qualified binding: t'local'let == 6" $ do
+      r <- eval'within "t'local'let" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
+    it "local higher-rank use: t'local'rank == 6" $ do
+      r <- eval'within "t'local'rank" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
 
 
 
