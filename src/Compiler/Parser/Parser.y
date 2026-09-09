@@ -583,9 +583,11 @@ parse'error _ = do
 
 
 parse'module :: String -> [Term'Decl]
-parse'module source = eval'parser parsermain source
+parse'module source = eval'parser (push'top'marker >> parsermain) source
 
 
+-- NOTE: no top marker here: this entry parses a single Declaration,
+-- there is no top-level block to open implicitly.
 parse'decls :: String -> [Term'Decl]
 parse'decls source = eval'parser parserdecls source
 

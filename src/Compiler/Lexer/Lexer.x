@@ -100,7 +100,7 @@ token :-
 <0>         @opconstr                   { parametrized'tok Tok'Operator'Const id }
 
 
-<0>         \n                          ;
+<0>         \n                          { mark'newline }
 <0>         $space+                     ;
 
 
@@ -129,8 +129,8 @@ token :-
 <string'SC>  .                          { append'string }
 
 
--- rest-of-the-line comment
-<0>         \-\-.*\n                    ;
+-- rest-of-the-line comment (ends with a newline, like one)
+<0>         \-\-.*\n                    { mark'newline }
 
 
 {
@@ -156,35 +156,44 @@ read'token :: Parser Token
 read'token = do
   s <- get
 
-  -- NOTE: If I generate extra tokens for off-side rule 
-  -- I will need to keep actual tokens pending before the extras are read
-  -- Those have to be read now.
-  case pending'tokens s of
-    tok : toks -> do
-      put s{ pending'tokens = toks }
-      return tok
+  -- Queued virtual tokens go first, as they are.
+  case pending'virtuals s of
+    virt : virts -> do
+      put s{ pending'virtuals = virts }
+      return virt
 
     [] ->
-      case alexScan (input s) (lex'start'code s) of
-        AlexEOF -> do
-          pos <- get'position 0
-          put s{ done = True }
-          return $ Tok'EOF pos
+      -- Pushed back tokens (lookahead held while virtual
+      -- layout tokens are emitted) are re-examined next.
+      case pending'tokens s of
+        tok : toks -> do
+          put s{ pending'tokens = toks }
+          examine'token tok
 
-        AlexError inp' -> error $ "Lexical error on line " ++ (show $ ai'line'number inp')
-        
-        AlexSkip inp' _ -> do
-          put s{ input = inp' }
-          read'token
-        
-        AlexToken inp' n act -> do
-          -- let ll = layout'stack s
-          let (AlexInput{ ai'rest = buf }) = input s
-          put s{ input = inp' }
-          res <- act n (take n buf)
-          case res of
-            Nothing -> read'token
-            Just t -> return t
+        [] -> scan'token
+
+
+scan'token :: Parser Token
+scan'token = do
+  s <- get
+  case alexScan (input s) (lex'start'code s) of
+    AlexEOF -> do
+      pos <- get'position 0
+      examine'token (Tok'EOF pos)
+
+    AlexError inp' -> error $ "Lexical error on line " ++ (show $ ai'line'number inp')
+    
+    AlexSkip inp' _ -> do
+      put s{ input = inp' }
+      read'token
+    
+    AlexToken inp' n act -> do
+      let (AlexInput{ ai'rest = buf }) = input s
+      put s{ input = inp' }
+      res <- act n (take n buf)
+      case res of
+        Nothing -> read'token
+        Just t -> examine'token t
 
 
 lexer :: (Token -> Parser a) -> Parser a
