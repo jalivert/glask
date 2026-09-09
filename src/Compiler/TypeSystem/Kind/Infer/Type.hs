@@ -1,7 +1,7 @@
 module Compiler.TypeSystem.Kind.Infer.Type where
 
 import qualified Data.Map.Strict as Map
-import Control.Monad.State ( foldM )
+import Control.Monad ( foldM )
 import Control.Monad.Extra ( concatMapM )
 import Control.Monad.Except ( MonadError(throwError) )
 import Control.Monad.Trans.Reader ( asks )

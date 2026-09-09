@@ -11,8 +11,8 @@ import Data.Sequence ( unzipWith, replicate )
 import Data.List (intersperse, find)
 import Data.Maybe ( mapMaybe, fromMaybe )
 import Control.Monad.Trans.Reader ( asks, local )
-import Control.Monad.Except ( when, replicateM, MonadError(throwError) )
-import Control.Monad.State ( when, replicateM )
+import Control.Monad ( when, replicateM )
+import Control.Monad.Except ( MonadError(throwError) )
 
 
 import Compiler.Counter ( fresh )

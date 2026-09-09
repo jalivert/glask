@@ -6,7 +6,7 @@ module Compiler.TypeSystem.Utils.Class where
 import qualified Data.Set as Set
 import qualified Data.Map.Strict as Map
 import Data.Maybe ( isJust, isNothing )
-import Control.Monad.Except ( liftM, ExceptT, MonadError(throwError) )
+import Control.Monad.Except ( ExceptT, MonadError(throwError) )
 import Control.Monad.Extra ( liftM, anyM, ifM )
 import Control.Monad.Trans.Except ( catchE )
 

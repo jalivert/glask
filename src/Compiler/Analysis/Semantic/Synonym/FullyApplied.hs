@@ -1,6 +1,7 @@
 module Compiler.Analysis.Semantic.Synonym.FullyApplied where
 
-import Control.Monad.Reader ( liftM2, runReader, MonadReader(ask), Reader )
+import Control.Monad ( liftM2 )
+import Control.Monad.Reader ( runReader, MonadReader(ask), Reader )
 import Control.Applicative (Applicative(liftA2))
 import Control.Monad.Extra ( maybeM )
 import qualified Data.Map.Strict as Map

@@ -3,7 +3,8 @@
 module Compiler.Counter where
 
 
-import Control.Monad.State ( MonadState(put, get), replicateM )
+import Control.Monad ( replicateM )
+import Control.Monad.State ( MonadState(put, get) )
 
 
 newtype Counter = Counter{ counter :: Int }

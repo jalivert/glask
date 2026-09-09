@@ -1,7 +1,8 @@
 module Compiler.TypeSystem.Type.Infer.Explicit where
 
 
-import Control.Monad.Except ( filterM, runExceptT, MonadError(throwError) )
+import Control.Monad ( filterM )
+import Control.Monad.Except ( runExceptT, MonadError(throwError) )
 import Control.Monad.Reader ( MonadReader(ask) )
 import Data.Functor.Identity ( Identity(runIdentity) )
 import qualified Data.Set as Set

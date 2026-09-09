@@ -5,7 +5,8 @@ module Compiler.TypeSystem.Type.Infer.Program where
 import Data.Maybe ( mapMaybe )
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
-import Control.Monad.Except ( runExceptT, MonadError(throwError), unless )
+import Control.Monad ( unless )
+import Control.Monad.Except ( runExceptT, MonadError(throwError) )
 import Control.Monad.Reader ( MonadReader(ask) )
 import Data.Functor.Identity ( Identity(runIdentity) )
 import Control.Monad.State ( MonadState(get) )

@@ -58,7 +58,18 @@ infer'expr (Var var'name) expected = do
   m <- lookup'in'overloaded var'name
   expr' <- case m of
             Nothing -> -- OK, just do the normal thing
-              return $ Var var'name
+              -- BUT: a variable whose scheme carries constraints (such as a
+              -- higher-rank pattern variable) must still be applied to
+              -- dictionaries, exactly like an overloaded constant. Otherwise
+              -- use sites would disagree with the definition, which always
+              -- abstracts over its context (`elim'match`), on arity.
+              case sigma of
+                T'Forall _ (ctxt :=> _)
+                  | not (null ctxt) -> do
+                      let placeholders  = map (\ (Is'In cl'name ty) -> Placeholder $ Placeholder.Dictionary cl'name ty) preds
+                          application   = foldl App (Var var'name) placeholders
+                      return application
+                _ -> return $ Var var'name
             Just Overloaded -> do
               -- application of the overloaded variable to possibly many
               -- placeholders so I need to know how many dictionaries the

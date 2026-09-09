@@ -2,7 +2,8 @@ module Compiler.TypeSystem.Type.Infer.Declaration where
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
-import Control.Monad.Except ( runExceptT, MonadError(throwError), unless, when )
+import Control.Monad ( unless, when )
+import Control.Monad.Except ( runExceptT, MonadError(throwError) )
 import Control.Monad.Reader ( MonadReader(ask) )
 import Control.Monad.Trans.Reader ( asks, local )
 import Data.Functor.Identity ( Identity(runIdentity) )

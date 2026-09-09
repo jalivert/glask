@@ -19,12 +19,16 @@ import Compiler.Counter ( Counter(Counter, counter), fresh, real'fresh, letters 
 import Compiler.Syntax.Name ( Name )
 import Compiler.Syntax.HasKind ( HasKind(kind) )
 import Compiler.Syntax.Kind ( Kind (K'Star) )
-import Compiler.Syntax.Predicate ( Predicate )
+import Compiler.Syntax.Predicate ( Predicate(..) )
 import Compiler.Syntax.Qualified ( Qualified(..) )
 import {-# SOURCE #-} Compiler.Syntax.Type ( Sigma'Type, T'V'(..), Type(T'Forall, T'Var', T'Meta, T'Tuple), Rho'Type, Tau'Type, M'V(..) )
 import Compiler.Syntax.TFun ( pattern T'Fun )
 import Compiler.Syntax.Overloaded ( Overloaded )
-import Compiler.Syntax.Match ( Match )
+import Compiler.Syntax.Match ( Match(..) )
+import Compiler.Syntax.Pattern ( Pattern(P'Var) )
+import Compiler.Syntax.Declaration ( Declaration(Binding, Instance) )
+import Compiler.Syntax.BindGroup ( Bind'Group(Bind'Group) )
+import qualified Compiler.Syntax.Placeholder as Placeholder
 
 import Compiler.TypeSystem.Error ( Error(Unexpected, Unbound'Var, Unbound'Type'Var) )
 import Compiler.TypeSystem.Infer ( Infer, run'infer, Type'Check, Kind'Check, add'constraints, get'constraints )
@@ -39,7 +43,7 @@ import Compiler.TypeSystem.Solver.Substitutable ( Substitutable(apply), Term(fre
 import Compiler.TypeSystem.Type.Constants ( type'fn )
 
 
-import Compiler.Syntax.Expression ( Expression )
+import Compiler.Syntax.Expression ( Expression(..) )
 import Compiler.TypeSystem.Expected ( Expected(..) )
 import Compiler.TypeSystem.Actual ( Actual(..) )
 import {-# SOURCE #-} Compiler.TypeSystem.Type.Infer.Expression ( infer'expr )
@@ -451,6 +455,61 @@ new'skolem'vars tvs = do
   
   mapM (\ (T'V' name kind) -> real'fresh names name >>= \ fresh'name -> return $ T'V' fresh'name kind) tvs
 
+
+-- Elaborate the dictionary abstraction for predicates floated by `skolemise`
+-- (the `pr` of the thesis: PRPOLY floats the `forall` block with its
+-- predicates, PRFUN floats through the result type).
+-- Each predicate gets a fresh dictionary parameter (named `d-<class>-<fresh>`,
+-- illegal in surface syntax, mirroring `elim'match`), every `Dictionary`
+-- placeholder for exactly that predicate becomes the parameter, and the
+-- parameters are lambda-bound around the whole expression, in predicate
+-- order. The arity matches use sites, which apply one dictionary per
+-- predicate of the (instantiated) expected type.
+bind'skolem'dicts :: [Predicate] -> Subst M'V Type -> Expression -> Type'Check Expression
+bind'skolem'dicts preds subst expr = do
+  dicts <- mapM new'dict preds
+  let mapping = zip (map (apply subst) preds) (map snd dicts)
+  return $ foldr (\ (_, param) rest -> Abs (P'Var param) rest) (fill mapping expr) dicts
+  where
+    new'dict :: Predicate -> Type'Check ((Name, Type), Name)
+    new'dict (Is'In cl'name ty) = do
+      name <- fresh
+      return ((cl'name, ty), "d-" ++ cl'name ++ "-" ++ name)
+
+    fill :: [(Predicate, Name)] -> Expression -> Expression
+    fill mapping = go
+      where
+        go (Placeholder (Placeholder.Dictionary cl'name ty))
+          | Just param <- lookup (Is'In cl'name (apply subst ty)) mapping
+          = Var param
+        -- A method placeholder is a method selector applied to a dictionary
+        -- (see `elim'expr`); resolve the dictionary part the same way.
+        go (Placeholder (Placeholder.Method mname ty cl'name))
+          | Just param <- lookup (Is'In cl'name (apply subst ty)) mapping
+          = App (Var mname) (Var param)
+        go v@(Var _) = v
+        go c@(Const _) = c
+        go o@(Op _) = o
+        go l@(Lit _) = l
+        go (Abs pat body) = Abs pat (go body)
+        go (App fun arg) = App (go fun) (go arg)
+        go (Infix'App left op right) = Infix'App (go left) (go op) (go right)
+        go (Tuple exprs) = Tuple (map go exprs)
+        go (If cond then' else') = If (go cond) (go then') (go else')
+        go (Let decls body) = Let (map go'decl decls) (go body)
+        go (Ann e sigma) = Ann (go e) sigma
+        go (Case motive matches) = Case (go motive) (map go'match matches)
+        go h@(Hole _) = h
+        go p@(Placeholder _) = p
+
+        go'match :: Match -> Match
+        go'match (Match pats rhs) = Match pats (go rhs)
+
+        go'decl :: Declaration -> Declaration
+        go'decl (Binding (Bind'Group n alts)) = Binding (Bind'Group n (map go'match alts))
+        go'decl (Instance inst decls) = Instance inst (map go'decl decls)
+        go'decl decl = decl
+
   -- mapM (\ (T'V name k) -> do
   --   { fresh'name <- real'fresh names name
   --   ; return $ T'V fresh'name k
@@ -757,7 +816,22 @@ check'sigma expr sigma = do
                           ("check'sigma\n" ++ "outer'reduced = " ++ show outer'reduced ++ "\ninner'reduced = " ++ show inner'reduced ++ "\n") ++
                           ("the expression = " ++ show expr ++ "\n\nsubst = " ++ show subst)
             throwError $ Unexpected ("The context is too weak!\n" ++ "Predicates: " ++ show ps' ++ "\n can not be solved." ++ "\n" ++ message ++ "\n\n")
-          else return (expr', outer'reduced)
+          else do
+            -- ELABORATION for the prenex conversion: `skolemise` above has
+            -- floated the predicates of the expected type out of covariant
+            -- positions. The checked expression refers to them through
+            -- dictionary placeholders, which no outer scope could ever
+            -- discharge (they mention rigid skolem variables), so a leftover
+            -- placeholder would crash `to'core`. Bind each floated predicate
+            -- as a dictionary lambda around the expression instead, and
+            -- rewrite the matching placeholders to the bound variables.
+            -- The discharged predicates must not propagate any further.
+            -- (An explicitly annotated expression already accounts for its
+            -- own dictionary abstraction, so it is left alone.)
+            expr'' <- case expr' of
+              Ann _ _ -> return expr'
+              _       -> bind'skolem'dicts (apply subst preds) subst expr'
+            return (expr'', [])
           -- IMPORTANT: I think that if the context from the type entails the whole inferred context
           -- it should be OK to return only the outer'reduced context.
           -- The reason being, the inner is already contained within the outer one and the outer one

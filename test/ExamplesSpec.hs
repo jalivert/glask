@@ -147,6 +147,32 @@ spec = do
       r <- eval'within "length (take 4 endless'list)" file
       r `shouldBe` Right (Literal (Lit'Int 4))
 
+  describe "Testing prenex conversion with class predicates" $ do
+    let file = "./examples/positive/prenex/nested.glask"
+    it (file ++ " typechecks") $ do
+      r <- type'check file
+      r `shouldBe` Nothing
+
+    it "nested qualified result: f 1 2 == 1" $ do
+      r <- eval'within "f 1 2" file
+      r `shouldBe` Right (Literal (Lit'Int 1))
+
+    it "constraint under arrow: g 0 5 == 5" $ do
+      r <- eval'within "g 0 5" file
+      r `shouldBe` Right (Literal (Lit'Int 5))
+
+    it "constrained higher-rank argument: apply inc 3 == 6" $ do
+      r <- eval'within "apply inc 3" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
+    it "nested annotation argument: t'nested'ann == 6" $ do
+      r <- eval'within "t'nested'ann" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
+    it "lambda with method use: t'lambda'method == 6" $ do
+      r <- eval'within "t'lambda'method" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
 
 
 

@@ -1,7 +1,8 @@
 module Compiler.TypeSystem.Type.Infer.Implicit where
 
 
-import Control.Monad.Except ( zipWithM, runExceptT, MonadError(throwError) )
+import Control.Monad ( zipWithM )
+import Control.Monad.Except ( runExceptT, MonadError(throwError) )
 import Control.Monad.Reader ( MonadReader(ask) )
 
 import Data.Functor.Identity ( Identity(runIdentity) )
