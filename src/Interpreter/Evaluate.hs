@@ -585,4 +585,14 @@ data'to'string dat@(Data ":" [_, _]) _ = do
 
 data'to'string (Data "[]" []) _ = return (Right "")
 
+
+-- `String` is a wrapper around a list of characters
+-- (as in `data String = String [Char]`), so unwrap it and serialize the list.
+data'to'string (Data "String" [field]) env = do
+  res <- force field
+  case res of
+    Left err -> return (Left err)
+    Right list -> data'to'string list env
+
+
 data'to'string x env = return (Left (Unexpected $ "Weird - when serializing, I dodn't get a list at all. " ++ show x))
