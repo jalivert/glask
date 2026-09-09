@@ -2,35 +2,19 @@
 
 [![Haskell CI](https://github.com/jalivert/glask/actions/workflows/haskell.yml/badge.svg)](https://github.com/jalivert/glask/actions/workflows/haskell.yml)
 
-I am currently rebuilding the whole project from the ground up in a different repository. This repo hosts a source code of the implementation for my master's thesis project.
+## Background
 
-## Master's thesis implementation
+This repository contains the implementation accompanying the master's thesis *Implementation of a
+statically typed, lazy, pure functional programming language* (Jan Liam Verter, Faculty of
+Information Technology, Czech Technical University in Prague, 2022). The [thesis text](https://dspace.cvut.cz/server/api/core/bitstreams/de31dcfd-386b-4860-a095-26b0588c091c/content) is available
+online.
 
-This repository is the implementation accompanying my master's thesis:
-
-**Implementation of a statically typed, lazy, pure functional programming language**
-Bc. Jan Sliacký, Faculty of Information Technology, Czech Technical University in Prague, June 2022.
-Supervisor: Ryan Michael Culpepper, Ph.D.
-
-The full text is in the root of this repository: [Master's Thesis.pdf](Master's%20Thesis.pdf).
-
-From the abstract: *"This thesis presents an implementation of a functional, statically typed programming
-language inspired by Haskell. It mainly focuses on the challenges of implementing the type system
-for such a language. The implementation is based on multiple resources covering implementations of
-different type system features. The thesis also covers other aspects of the language
-implementation — lexical and syntactic analysis, translation into a smaller functional core language,
-and non-strict evaluation."*
-
-The thesis assignment explored three areas: parsing (user-defined infix operators), the type system
-(first-class polymorphism, higher-ranked types, user-definable type classes, higher-kinded data
-types, type synonyms, explicit type annotations, typed holes), and evaluation (an interactive
-interpreter with a REPL offering type and kind checking; no machine-code compiler, elaboration to a
-small core language instead).
-
-Since the defense, the code has been revived as a portfolio piece: the build was switched from
-Stack to Cabal, licensed MIT, the stale CI was rebuilt around GHC 9.10.1, and a few long-standing
-type-system bugs (prenex conversion of qualified types, dictionary elaboration of local bindings)
-were fixed and covered with tests.
+The implementation follows three papers in particular: Mark P. Jones's [*Typing Haskell in
+Haskell*](https://web.cecs.pdx.edu/~mpj/thih/thih.pdf) for the constraint-based type
+inference core, Simon Peyton Jones, Vytiniotis, Weirich and Shields's [*Practical Type Inference for
+Arbitrary-Rank Types*](https://doi.org/10.1017/S0956796806006034) for higher-rank types, and
+Peterson and Jones's [*Implementing Type Classes*](https://doi.org/10.1145/173262.155112) for the
+dictionary-passing elaboration of type classes.
 
 ## What Glask is
 
@@ -145,9 +129,3 @@ examples/positive      tested example programs, grouped by feature
 app                    the `glask-exe` entry point
 test                   Hspec suite driving the examples
 ```
-
-## Status and future work
-
-This snapshot preserves the thesis implementation with the maintenance described above. The
-language is being re-designed from scratch in a separate repository; one concrete item already
-planned is porting that rewrite's off-side-rule parser back here.
