@@ -37,7 +37,7 @@ import Compiler.TypeSystem.Actual ( Actual (Checked, Inferred) )
 import Compiler.TypeSystem.Kind.Infer.Annotation ( kind'specify )
 import Compiler.TypeSystem.Error ( Error(Unexpected, Typed'Holes) )
 import Compiler.TypeSystem.InferenceState (Infer'State(holes))
-import Debug.Trace (trace, traceM)
+
 
 
 infer'expr :: Expression -> Expected Rho'Type -> Type'Check (Expression, [Predicate], Actual Rho'Type)
@@ -51,7 +51,6 @@ infer'expr (Var var'name) expected = do
                       Checked -> error "should never happen"
                       Inferred t -> t
 
-  let oo = if var'name == "foo" then trace ("variable = " ++ var'name ++ "  \n|  sigma= " ++ show sigma ++ "\n|  preds = " ++ show preds ++ "\n|  ty= " ++ show ty ++ "\n|  expected= " ++ show expected) var'name else var'name
   -- TODO: HERE - the var might be overloaded constant, or it might be a method,
   -- or it might be one of mutually recrusive definitions I need some way of
   -- knowing whether it's one of those
@@ -258,8 +257,6 @@ infer'expr (If condition then' else') Infer = do
   
   (skolems, context, rho) <- skolemise rho'then
 
-  trace ("________\n" ++ "IF :- rho= " ++ show rho ++ "\n" ++ "skolems= " ++ show skolems ++ "\n" ++ ".") (return ())
-  
   return (If condition' then'' else'', preds ++ preds'then ++ preds'else ++ preds' ++ preds'' ++ context, Inferred rho)
 
 infer'expr (If condition then' else') (Check rho) = do
@@ -303,7 +300,6 @@ infer'expr (Ann expr sigma) expected = do
   -- that will lead to another list of skolems and a whole different skolemisation
   -- that means, that the context from the line above will cause trouble
   (preds', actual') <- inst'sigma sigma' expected
-  traceM ("ANN\nexpr= " ++ show expr ++ "\nsigma= " ++ show sigma ++ "\npreds= " ++ show preds ++ "\npreds'= " ++ show preds' ++ "\nexpected= " ++ show expected ++ "\nactual'= " ++show actual' ++ "\n\n")
   return (Ann expr' sigma, {- preds ++ -} preds', actual')
   -- EXPERIMENT: I will try to ignore preds
 

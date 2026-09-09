@@ -48,7 +48,6 @@ import Compiler.TypeSystem.Solver.Substitutable ( Substitutable(apply), Term (fr
 import Compiler.TypeSystem.Utils.Infer ( default'subst, add'dicts, lookup'dict, lookup'instance )
 import Compiler.TypeSystem.Solver.Composable ( Composable(merge) )
 import Compiler.TypeSystem.InferenceState
-import Debug.Trace (trace)
 
 
 
@@ -327,8 +326,6 @@ elim'expl :: Subst M'V Type -> [(Name, Sigma'Type)] -> Explicit -> Type'Check Ex
 elim'expl subst assumptions (Explicit sigma Bind'Group{ name = n, alternatives = alts }) = do
   alts' <- mapM (elim'match subst assumptions sigma) alts
   let r = Explicit sigma (Bind'Group{ name = n, alternatives = alts' })
-
-  let oo = if n == "" then trace ("<elim>  ") r else r
 
   return r
 -- the point is, alts is a list of Matches
