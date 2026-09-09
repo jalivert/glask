@@ -31,7 +31,7 @@ import Compiler.TypeSystem.Type.Infer.Pattern ( infer'pat, infer'pattern, check'
 import {-# SOURCE #-} Compiler.TypeSystem.Type.Infer.Match ( infer'match, tc'matches )
 import {-# SOURCE #-} Compiler.TypeSystem.Type.Infer.Declaration ( infer'decls )
 
-import Compiler.TypeSystem.Utils.Infer ( with, lookup't'env, {- merge'into't'env -} inst'sigma, unify'fun, check'sigma, infer'rho, check'rho, subs'check, skolemise, lookup'in'overloaded, unify'pair, fresh'meta )
+import Compiler.TypeSystem.Utils.Infer ( with, lookup't'env, {- merge'into't'env -} inst'sigma, unify'fun, check'sigma, infer'rho, check'rho, subs'check, instantiate, lookup'in'overloaded, unify'pair, fresh'meta )
 import Compiler.TypeSystem.Expected ( Expected (Infer, Check) )
 import Compiler.TypeSystem.Actual ( Actual (Checked, Inferred) )
 import Compiler.TypeSystem.Kind.Infer.Annotation ( kind'specify )
@@ -254,8 +254,12 @@ infer'expr (If condition then' else') Infer = do
 
   preds' <- subs'check rho'then rho'else
   preds'' <- subs'check rho'else rho'then
-  
-  (skolems, context, rho) <- skolemise rho'then
+
+  -- The branches are reconciled by mutual subsumption above; the result is
+  -- the (instantiated) type of the then-branch. It must be instantiated,
+  -- not skolemised: skolemising would float nested `forall`s into rigid
+  -- skolems that escape into the scheme (cf. `if'expr3` in prelude.glask).
+  context :=> rho <- instantiate rho'then
 
   return (If condition' then'' else'', preds ++ preds'then ++ preds'else ++ preds' ++ preds'' ++ context, Inferred rho)
 
