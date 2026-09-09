@@ -218,6 +218,24 @@ spec = do
         Left err -> expectationFailure err
         Right scheme -> (free'vars scheme :: Set.Set T'V') `shouldBe` Set.empty
 
+  describe "Testing polymorphic local bindings" $ do
+    let file = "./examples/positive/prenex/local.glask"
+    it (file ++ " typechecks") $ do
+      r <- type'check file
+      r `shouldBe` Nothing
+
+    it "pure local at two types: t'pure'poly == 1" $ do
+      r <- eval'within "t'pure'poly" file
+      r `shouldBe` Right (Literal (Lit'Int 1))
+
+    it "overloaded local at one type: t'over'mono == 6" $ do
+      r <- eval'within "t'over'mono" file
+      r `shouldBe` Right (Literal (Lit'Int 6))
+
+    it "overloaded local at two types gets per-use dictionaries: t'over'poly == 99" $ do
+      r <- eval'within "t'over'poly" file
+      r `shouldBe` Right (Literal (Lit'Int 99))
+
 
 
 

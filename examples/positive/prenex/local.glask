@@ -1,0 +1,37 @@
+module Main where
+{ infixl 5 +
+
+; class Num a where
+  { (+) :: a -> a -> a }
+
+; instance Num Int where
+  { (+) x y = int#+ (x, y) }
+
+; class Ident a where
+  { ident :: a -> a }
+
+-- observably different dictionaries: the Int one maps everything to 0,
+-- the Bool one maps everything to False
+; instance Ident Int where
+  { ident x = 0 }
+
+; instance Ident Bool where
+  { ident x = False }
+
+; data Bool = True | False
+
+; pick :: (Int, Bool) -> Int
+; pick (a, b) = if b then a else 99
+
+-- pure local used at two types
+; t'pure'poly = let { id = \x -> x } in pick (id 1, id True)
+
+-- overloaded local used twice at one type
+; t'over'mono = let { double = \x -> x + x } in double 1 + double 2
+
+-- annotated overloaded local used at two types:
+-- each use site must get its own dictionary
+; t'over'poly = let { f :: Ident a => a -> a
+                    ; f = \x -> ident x }
+                in pick (f 5, f True)
+}
