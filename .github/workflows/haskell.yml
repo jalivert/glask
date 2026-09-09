@@ -32,6 +32,10 @@ jobs:
 
     - name: Install lexer/parser generators
       run: |
+        # the preinstalled Chrome repo often ships stale metadata that fails
+        # the whole `apt-get update` with a hash-sum mismatch; drop it, we
+        # do not need Chrome to build Haskell
+        sudo rm -f /etc/apt/sources.list.d/google-chrome.list
         sudo apt-get update
         sudo apt-get install -y alex happy
     - name: Install dependencies
