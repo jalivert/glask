@@ -12,33 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-haskell@v1
+    - uses: actions/checkout@v4
+    - uses: haskell-actions/setup@v2
       with:
-        ghc-version: '8.8.3'
-        cabal-version: '3.2'
-#         enable-stack: true
-#         stack-version: 'latest'
+        ghc-version: '9.10.1'
+        cabal-version: '3.12'
 
     - name: Cache
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       env:
         cache-name: cache-cabal
       with:
-        path: ~/.cabal
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
+        path: |
+          ~/.cabal/store
+          dist-newstyle
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-ghc-9.10.1-${{ hashFiles('**/*.cabal') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
 
+    - name: Install lexer/parser generators
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y alex happy
     - name: Install dependencies
       run: |
         cabal update
-        cabal build --only-dependencies --enable-tests --enable-benchmarks
-        sudo apt-get install alex
-        sudo apt-get install happy
+        cabal build --only-dependencies --enable-tests
     - name: Build
-      run: cabal build --enable-tests --enable-benchmarks all
+      run: cabal build all --enable-tests
     - name: Run tests
       run: cabal test all
