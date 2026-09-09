@@ -130,3 +130,19 @@ spec = do
     it "reads a simple arithmetic operation" $ do
       [Tok'Int 23, Tok'Operator "+", Tok'Int 42] ~: "23 + 42"
 
+  describe "Test implicit layout" $ do
+
+    it "opens and closes a virtual block around aligned declarations" $ do
+      [ Tok'Let, Tok'Left'Brace,
+        Tok'Ident'Var "a", Tok'Operator "=", Tok'Int 0, Tok'Semicolon,
+        Tok'Ident'Var "b", Tok'Operator "=", Tok'Int 1, Tok'Right'Brace,
+        Tok'In, Tok'Ident'Var "a" ] ~: "let a = 0\n    b = 1\nin a"
+
+    it "treats an indented line as a continuation" $ do
+      [ Tok'Ident'Var "foo", Tok'Operator "=",
+        Tok'Ident'Var "bar", Tok'Operator "+", Tok'Ident'Var "baz" ] ~: "foo = bar\n  + baz"
+
+    it "closes a virtual block before a dedented token" $ do
+      [ Tok'Where, Tok'Left'Brace,
+        Tok'Ident'Var "foo", Tok'Operator "=", Tok'Int 23, Tok'Right'Brace ] ~: "where\n  foo = 23\n"
+

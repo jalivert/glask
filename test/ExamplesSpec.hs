@@ -218,6 +218,32 @@ spec = do
         Left err -> expectationFailure err
         Right scheme -> (free'vars scheme :: Set.Set T'V') `shouldBe` Set.empty
 
+  describe "Testing implicit layout" $ do
+    let file = "./examples/positive/layout/basic.glask"
+    it (file ++ " typechecks") $ do
+      r <- type'check file
+      r `shouldBe` Nothing
+
+    it "let block: double'loc == 3" $ do
+      r <- eval'within "double'loc" file
+      r `shouldBe` Right (Literal (Lit'Int 3))
+
+    it "case block: choose True == 1" $ do
+      r <- eval'within "choose True" file
+      r `shouldBe` Right (Literal (Lit'Int 1))
+
+    it "case block: choose False == 0" $ do
+      r <- eval'within "choose False" file
+      r `shouldBe` Right (Literal (Lit'Int 0))
+
+    it "nested one-line lets: nested'one'line == 2" $ do
+      r <- eval'within "nested'one'line" file
+      r `shouldBe` Right (Literal (Lit'Int 2))
+
+    it "one-line case in let: case'in'let == 7" $ do
+      r <- eval'within "case'in'let" file
+      r `shouldBe` Right (Literal (Lit'Int 7))
+
   describe "Testing polymorphic local bindings" $ do
     let file = "./examples/positive/prenex/local.glask"
     it (file ++ " typechecks") $ do

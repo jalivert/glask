@@ -117,3 +117,17 @@ spec = do
 
     it "parses '3 + 5'" $ do
       "3 + 5" ~: Term'E'App [Term'E'Lit $ Lit'Int 3, Term'E'Op $ Term'Id'Var "+", Term'E'Lit $ Lit'Int 5 ]
+
+
+  describe "Test implicit layout" $ do
+
+    it "parses an implicit let block like explicit braces" $ do
+      parse'expr "let a = 0\n    b = 1\nin a" == parse'expr "let { a = 0 ; b = 1 } in a"
+
+    it "parses an implicit case block like explicit braces" $ do
+      parse'expr "case b of\n  True -> 1\n  False -> 0"
+        == parse'expr "case b of { True -> 1 ; False -> 0 }"
+
+    it "parses an implicit where block like explicit braces" $ do
+      parse'decls "class Num a where\n  (+) :: a -> a"
+        == parse'decls "class Num a where { (+) :: a -> a }"

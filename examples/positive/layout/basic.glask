@@ -1,0 +1,24 @@
+module Main where
+infixl 5 +
+
+class Num a where
+  (+) :: a -> a -> a
+  (*) :: a -> a -> a
+
+instance Num Int where
+  (+) x y = int#+ (x, y)
+  (*) x y = int#* (x, y)
+
+data Bool = True | False
+
+double'loc = let a = 1
+                 b = 2
+              in a + b
+
+choose b = case b of
+  True -> 1
+  False -> 0
+
+nested'one'line = let a = let b = 2 in b in a
+
+case'in'let = let a = case True of True -> 7 in a
