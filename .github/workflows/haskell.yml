@@ -8,27 +8,32 @@ on:
 
 jobs:
   build:
-
+    name: GHC ${{ matrix.ghc }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        ghc: ['9.10.1']
+        cabal: ['3.12']
 
     steps:
     - uses: actions/checkout@v4
-    - uses: haskell-actions/setup@v2
-      with:
-        ghc-version: '9.10.1'
-        cabal-version: '3.12'
 
-    - name: Cache
-      uses: actions/cache@v4
-      env:
-        cache-name: cache-cabal
+    - uses: haskell-actions/setup@v2
+      id: setup
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        cabal-version: ${{ matrix.cabal }}
+
+    - uses: actions/cache@v4
       with:
         path: |
-          ~/.cabal/store
+          ${{ steps.setup.outputs.cabal-store }}
           dist-newstyle
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-ghc-9.10.1-${{ hashFiles('**/*.cabal') }}
+        key: ${{ runner.os }}-ghc-${{ matrix.ghc }}-cabal-${{ matrix.cabal }}-${{ hashFiles('**/*.cabal', '**/cabal.project') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-ghc-${{ matrix.ghc }}-cabal-${{ matrix.cabal }}-
 
     - name: Install lexer/parser generators
       run: |
@@ -38,11 +43,14 @@ jobs:
         sudo rm -f /etc/apt/sources.list.d/google-chrome.list
         sudo apt-get update
         sudo apt-get install -y alex happy
+
     - name: Install dependencies
       run: |
         cabal update
         cabal build --only-dependencies --enable-tests
+
     - name: Build
       run: cabal build all --enable-tests
+
     - name: Run tests
       run: cabal test all
