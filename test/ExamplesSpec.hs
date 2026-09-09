@@ -31,7 +31,9 @@ import qualified Compiler.Syntax.ToAST.TranslateEnv as TE
 
 import Compiler.Syntax.ToAST.TranslateEnv
 
-import Interpreter.Evaluate ( eval )
+import Control.Monad.State ( runState )
+
+import Interpreter.Evaluate ( eval, data'to'string )
 import Interpreter.ToCore ( decls'to'core, section'to'core, data'to'core, to'core )
 
 
@@ -40,7 +42,7 @@ import Compiler.Counter
 import REPL.Expression ( read'expr, infer'type, infer'expr'type )
 import REPL.Load ( load'declarations, process'declarations, build'env'store )
 import Interpreter.Value (Value (Literal))
-import Compiler.Syntax (Expression, Literal (Lit'Int))
+import Compiler.Syntax (Expression(..), Literal (Lit'Int))
 
 
 
@@ -188,6 +190,14 @@ spec = do
       r <- eval'within "t'double'ann" file
       r `shouldBe` Right (Literal (Lit'Int 6))
 
+    it "show prints through the String wrapper" $ do
+      r <- serialise'within "f 1 2" file
+      r `shouldBe` Right "a"
+
+    it "show prints applied higher-rank results" $ do
+      r <- serialise'within "apply inc 3" file
+      r `shouldBe` Right "a"
+
   describe "Testing if with higher-rank branches" $ do
     let file = "./examples/positive/prenex/branch.glask"
     it (file ++ " typechecks") $ do
@@ -278,6 +288,65 @@ scheme'within expr file'name = do
 
                 Right (scheme, _, _) -> do
                   return $ Right scheme
+
+  where counter   = Counter { counter = 0 }
+
+
+serialise'within :: String -> String -> IO (Either String String)
+serialise'within expr file'name = do
+  handle <- openFile file'name ReadMode
+  contents <- hGetContents handle
+
+  case load'declarations contents counter of
+    Left sem'err -> do
+      return $ Left $ show sem'err
+
+    Right (decls, trans'env, counter') -> do
+      case process'declarations decls trans'env counter' of
+        Left err -> do
+          return $ Left $ show err
+
+        Right (program, infer'env, trans'env', counter'', infer'state) -> do
+          let k'e = kind'env infer'env
+
+          let b'section = bind'section program
+          let b'sec'core = section'to'core b'section
+
+          let data'decls = data'declarations program
+
+          let unit'constr = Core.Binding "()" (Core.Intro "()" [])
+          let cons'constr = Core.Binding ":" (Core.Abs "a" (Core.Abs "as" (Core.Intro ":" [Core.Var "a", Core.Var "as"])))
+          let nil'constr  = Core.Binding "[]" (Core.Intro "[]" [])
+          let constructor'core = unit'constr : cons'constr : nil'constr : data'to'core data'decls
+
+          let (env, stor) = build'env'store $ b'sec'core ++ constructor'core
+
+          case read'expr expr trans'env'{ TE.kind'context = k'e `Map.union` (TE.kind'context trans'env') } counter'' of
+            Left trans'err -> do
+              return $ Left $ show trans'err
+
+            Right (expr', counter''') -> do
+              -- the REPL shows every expression by applying `show` to it
+              let shown = App (Var "show") expr'
+              let inf'env = infer'env{ I'Env.instances = I'State.instances infer'state, I'Env.overloaded = I'State.overloaded infer'state }
+              case infer'expr'type shown inf'env counter''' of
+                Left err -> do
+                  return $ Left $ show err
+
+                Right (_, expr'', _) -> do
+                  let core = to'core expr''
+                      (res, store') = runState (eval core env) stor
+                  case res of
+                    Left eval'err -> do
+                      return $ Left $ show eval'err
+
+                    Right value -> do
+                      case runState (data'to'string value env) store' of
+                        (Left err, _) -> do
+                          return $ Left $ show err
+
+                        (Right serialised, _) -> do
+                          return $ Right serialised
 
   where counter   = Counter { counter = 0 }
 
