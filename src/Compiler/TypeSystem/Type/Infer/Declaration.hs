@@ -668,7 +668,7 @@ elim'expr assumps subst (Placeholder (Placeholder.Recursive name ty)) = do
 elim'decl :: [(Name, Sigma'Type)] -> Subst M'V Type -> Declaration -> Type'Check Declaration
 elim'decl assumps subst (Binding Bind'Group{ name = n, alternatives = matches }) = do
   matches' <- mapM (elim'match' assumps subst) matches
-  return $ Binding $ Bind'Group{ name = n, alternatives = matches }
+  return $ Binding $ Bind'Group{ name = n, alternatives = matches' }
 
 elim'decl assumps subst s@(Signature _) = do
   return s

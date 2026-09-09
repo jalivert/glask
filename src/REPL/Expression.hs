@@ -214,7 +214,11 @@ infer'expr'type expr i'env counter = do
   -- s' <- runIdentity $ runExceptT $ default'subst c'env [] rs :: Either Error (Subst T'V Type)
   let s' = def'subst
 
-  subst' <- runIdentity $ runExceptT (subst `merge` s')
+  -- NOTE: unlike `merge`, `compose` also applies the defaulting substitution
+  -- to the range of the solving substitution, closing chains like `?a := ?b`
+  -- with `?b := Int`. Without this, `elim'expr` (single-lookup `apply`) lands
+  -- on a meta variable and leaves an unresolvable dictionary placeholder.
+  let subst' = s' `compose` subst
 
   -- TODO: Now I need to take care of the holes
 
