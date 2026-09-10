@@ -1,0 +1,23 @@
+-- parse dump: ./examples/positive/evaluate/lazy.layout.glask
+-- decls: 21 ["Fixity","Fixity","Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Binding","Binding","Signature","Binding","Binding","Binding","Data'Decl","Binding","Binding","Binding","Binding","Signature","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "endless'list" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "normal'list" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "take" _ Term'Id'Const "[]" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "take" 0 _ = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "take" Term'Id'Var "n" Term'Id'Var "a" Term'Id'Const ":" Term'Id'Var "as" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "test" 0 _ = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "head" Term'Id'Var "x" Term'Id'Const ":" _ = x
+[[Binding]]    Term'Id'Var "inf" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "program1" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "length" Term'Id'Const "[]" = 0
+[[Binding]]    Term'Id'Var "length" Term'Id'Var "x" Term'Id'Const ":" Term'Id'Var "xs" = Not Implemented: Show for Term'Expr

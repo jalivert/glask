@@ -1,0 +1,21 @@
+-- parse dump: ./examples/positive/prenex/nested.layout.glask
+-- decls: 19 ["Fixity","Class'Decl","Instance","Data'Decl","Class'Decl","Instance","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Binding","Binding","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "f" Term'Id'Var "x" Term'Id'Var "y" = x
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "g" Term'Id'Var "x" Term'Id'Var "y" = y
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "apply" Term'Id'Var "h" Term'Id'Var "x" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "inc" Term'Id'Var "x" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'nested'ann" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'lambda'method" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'local'let" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'local'rank" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'double'ann" = Not Implemented: Show for Term'Expr

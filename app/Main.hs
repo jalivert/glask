@@ -20,6 +20,6 @@ main = do
 
 
 module'to'load :: [String] -> String
-module'to'load ("proto" : _) = "protolude.glask"
+module'to'load ("proto" : _) = "examples/prelude/protolude.glask"
 module'to'load (file'name : _) = file'name
-module'to'load _ = "prelude.glask"
+module'to'load _ = "examples/prelude/prelude.glask"

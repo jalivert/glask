@@ -1,0 +1,43 @@
+module Main where
+infixl 7 *
+infixl 6 +
+infixl 6 -
+infix 4 ==
+class Num a where
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+instance Num Int where
+  (+) x y = int#+ (x, y)
+  (-) x y = int#- (x, y)
+  (*) x y = int#* (x, y)
+data Bool = True | False
+class Eq a where
+  (==) :: a -> a -> Bool
+instance Eq Int where
+  (==) x y = int#== (x, y)
+data String = String [Char]
+class Show a where
+  show :: a -> String
+instance Show Int where
+  show x = String (int#show x)
+instance Show Bool where
+  show b = if b then String ['T'] else String ['F']
+double'loc = let { a = 1; b = 2 } in a + b
+shadow = let { a = 1 } in let { a = 2 } in a
+shadow'outer = let { a = 1 } in (let { b = 3 } in a) + (let { a = 2 } in a)
+choose b = case b of { True -> 1; False -> 0 }
+nested'case x = case x of { 0 -> 10; _ -> case x of { 1 -> 11; _ -> 12 } }
+if'nest x = if x == 0 then 100 else if x == 1 then 101 else 102
+fact 0 = 1
+fact n = n * fact (n - 1)
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n - 1) + fib (n - 2)
+adder x = \ y -> x + y
+apply f x = f x
+closure'test = let { base = 10 } in let { add'base = \ z -> base + z } in add'base 5
+beta = (\ x -> x + 1) 41
+let'fun = let { double = \ x -> x + x } in double 21
+case'in'let = let { a = case True of { True -> 7 } } in a
+let'in'case = case 1 of { _ -> let { q = 8 } in q }

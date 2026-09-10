@@ -1,0 +1,9 @@
+-- parse dump: ./examples/positive/classes/qualified.layout.glask
+-- decls: 7 ["Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Class'Decl","Instance"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl

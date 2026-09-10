@@ -1,0 +1,51 @@
+module Main where
+infixl 5 +
+
+class Num a where
+  (+) :: a -> a -> a
+
+instance Num Int where
+  (+) x y = int#+ (x, y)
+
+data String = String [Char]
+
+class Show a where
+  show :: a -> String
+
+instance Show Int where
+  show x = String ['a']
+
+-- constraints + polymorphism nested in covariant (result) position
+-- the prenex conversion must not change the calling convention
+f :: forall a . Num a => a -> (forall b . Show b => b -> a)
+f x y = x
+
+-- class constraint nested under an arrow
+g :: Int -> (forall a . Num a => a -> a)
+g x y = y
+
+-- constrained higher-rank argument
+apply :: (forall a . Num a => a -> a) -> Int -> Int
+apply h x = h x
+
+inc :: Num a => a -> a
+inc x = x + x
+
+-- nested annotation used as a higher-rank argument
+t'nested'ann = apply (inc :: Num a => a -> a) 3
+
+-- lambda with a method use as a higher-rank argument
+t'lambda'method = apply (\ a -> a + a) 3
+
+-- locally-bound annotated binding with a constraint
+t'local'let = let { loc :: Num a => a -> a
+                    ; loc = \ x -> x + x }
+                in loc 3
+
+-- locally-bound function used as a higher-rank argument
+t'local'rank = let { loc :: Num a => a -> a
+                     ; loc = \ x -> x + x }
+                 in apply loc 3
+
+-- doubly-nested annotation as a higher-rank argument
+t'double'ann = apply ((inc :: Num a => a -> a) :: forall x . Num x => x -> x) 3

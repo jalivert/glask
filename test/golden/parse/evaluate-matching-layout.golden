@@ -1,0 +1,69 @@
+-- parse dump: ./examples/positive/evaluate/matching.layout.glask
+-- decls: 67 ["Class'Decl","Instance","Instance","Class'Decl","Instance","Class'Decl","Instance","Signature","Binding","Binding","Data'Decl","Instance","Data'Decl","Class'Decl","Data'Decl","Data'Decl","Data'Decl","Data'Decl","Data'Decl","Class'Decl","Signature","Binding","Class'Decl","Class'Decl","Binding","Binding","Signature","Binding","Binding","Binding","Signature","Binding","Binding","Signature","Binding","Signature","Binding","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Binding","Binding","Signature","Binding","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "tail" Term'Id'Const "[]" = Nothing
+[[Binding]]    Term'Id'Var "tail" Term'Id'Var "a" Term'Id'Const ":" Term'Id'Var "as" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "fails" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "int" = 23
+[[Binding]]    Term'Id'Var "double" = 23.7
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "expl" = 23
+[[Binding]]    Term'Id'Var "lambda" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "the'what" _ = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "fn" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "undefined" = undefined
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "oog" = undefined
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "require" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "ok" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "expl'forall" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "broken" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "unwrapped" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "a" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "b" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "c" = c
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "a1" = a1
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "a2" = a2
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "a3" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "a4" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "a5" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "many'eqs" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "many'eqs" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "testing" = 23
+[[Binding]]    Term'Id'Var "test'" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "test''" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "identifier" = identifier

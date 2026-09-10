@@ -1,0 +1,9 @@
+-- parse dump: ./examples/positive/annotations/forall.layout.glask
+-- decls: 7 ["Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Signature","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "works" = Not Implemented: Show for Term'Expr

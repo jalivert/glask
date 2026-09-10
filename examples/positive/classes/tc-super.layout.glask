@@ -1,0 +1,49 @@
+module Main where
+class Num a
+instance Num Int
+
+class Fractional a
+instance Fractional Double
+
+class Super a where
+  super'm :: a -> a
+
+class Middle a where
+  middle'm :: a -> a
+
+class Center a where
+  center'm :: a -> a
+
+class (Center a, Middle a) => Bottom a where
+  bottom'm :: a -> a
+
+
+instance Bottom Int where
+  bottom'm x = middle'm (super'm x)
+
+instance Middle Int where
+  middle'm x = x
+
+instance Center Int where
+  center'm x = x
+
+instance Super Int where
+  super'm x = x
+
+-- Monomorphic wrappers: each forces the dictionary to Int at the
+-- definition site, so uses need no defaulting.
+apply'bottom :: Int -> Int
+apply'bottom x = bottom'm x
+
+t'bottom = apply'bottom 5
+
+apply'middle :: Int -> Int
+apply'middle x = middle'm x
+
+t'middle'use = apply'middle 7
+
+apply'both :: Int -> Int
+apply'both x = bottom'm (middle'm x)
+
+t'both = apply'both 4
+

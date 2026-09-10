@@ -1,0 +1,14 @@
+-- parse dump: ./examples/positive/operators/prefix-postfix.layout.glask
+-- decls: 12 ["Class'Decl","Instance","Class'Decl","Instance","Fixity","Fixity","Data'Decl","Signature","Binding","Signature","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "|>" Term'Id'Var "i" = True
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "?" Term'Id'Var "b" = 'a'
+[[Binding]]    Term'Id'Var "program" = Not Implemented: Show for Term'Expr

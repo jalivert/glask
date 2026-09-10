@@ -1,0 +1,13 @@
+-- parse dump: ./examples/positive/operators/infix.layout.glask
+-- decls: 11 ["Class'Decl","Instance","Class'Decl","Instance","Fixity","Fixity","Signature","Binding","Signature","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "+" Term'Id'Var "x" Term'Id'Var "y" = x
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "*" Term'Id'Var "x" Term'Id'Var "y" = x
+[[Binding]]    Term'Id'Var "program" = Not Implemented: Show for Term'Expr
