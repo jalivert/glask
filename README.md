@@ -7,7 +7,8 @@
 This repository contains the implementation accompanying the master's thesis *Implementation of a
 statically typed, lazy, pure functional programming language* (Jan Liam Verter, Faculty of
 Information Technology, Czech Technical University in Prague, 2022). The [thesis text](https://dspace.cvut.cz/server/api/core/bitstreams/de31dcfd-386b-4860-a095-26b0588c091c/content) is available
-online.
+online. The implementation has been revived and maintained since the defense;
+post-defense fixes are recorded in the commit history.
 
 The implementation follows three papers in particular: Mark P. Jones's [*Typing Haskell in
 Haskell*](https://web.cecs.pdx.edu/~mpj/thih/thih.pdf) for the constraint-based type
