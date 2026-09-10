@@ -371,10 +371,14 @@ rewritten to dictionary selections once the constraints are solved (thesis
 
 ```haskell
 class Num a
+
 instance Num Int
+
 data Wrap a = Wrap a
+
 class Constant a where
   vaval :: a
+
 instance Num a => Constant (Wrap a) where
   vaval = Wrap 23
 ```
