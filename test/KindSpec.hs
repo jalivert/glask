@@ -121,6 +121,8 @@ kind'cases =
   , ("082 Double to Bool", matching, "Double -> Bool", "*")
   , ("083 Wrap Bool", matching, "Wrap Bool", "*")
   , ("084 Wrap arrow", matching, "Wrap Int -> Int", "*")
+  , ("085 partial higher-kinded Test", matching, "Test Maybe", "* -> *")
+  , ("086 applied higher-kinded Test", matching, "Test Maybe Bool", "*")
   ]
   where
     matching = "./examples/positive/evaluate/matching.glask"
@@ -141,10 +143,13 @@ kind'errors =
   , ("052 List unknown in bool", bool, "List Int")
   , ("053 Maybe unknown in bool", bool, "Maybe Int")
   , ("054 String unknown in bool", bool, "String")
+  , ("055 Test unknown in hk-data", hk'data, "Test Maybe Int")
+  , ("056 applied Test unknown in hk-data", hk'data, "Test Maybe")
   ]
   where
     matching = "./examples/positive/evaluate/matching.glask"
     bool     = "./examples/positive/data/bool.glask"
+    hk'data  = "./examples/positive/higher-kinded/higherkinded.glask"
 
 
 -- Self-contained copy of the `:k` query pipeline from the REPL:
