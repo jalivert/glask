@@ -164,8 +164,8 @@ t'over'poly = let f :: Ident a => a -> a
 
 ## Showcase
 
-Two larger programs in `examples/positive/showcase/` serve as the language's
-benchmarks. Both are typechecked, evaluated, and REPL-transcripted by the
+Three larger programs in `examples/positive/showcase/` serve as the language's
+benchmarks. All are typechecked, evaluated, and REPL-transcripted by the
 test suite, in brace and layout notation alike.
 
 A lazy prime sieve (`showcase/sieve.glask`) — an infinite Eratosthenes sieve
@@ -338,6 +338,7 @@ instance Num Double where
   (*) x y = double#* (x, y)
 
 class Fractional a
+
 instance Fractional Double
 
 inc :: Num a => a -> a
