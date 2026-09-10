@@ -1,0 +1,3 @@
+-- eval: at 9 first'primes
+-- in: ./examples/positive/showcase/sieve.glask
+Right (Literal 29)

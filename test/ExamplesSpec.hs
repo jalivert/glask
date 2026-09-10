@@ -198,6 +198,39 @@ spec = do
       r <- serialise'within "apply inc 3" file
       r `shouldBe` Right "a"
 
+  describe "Testing showcase flagships" $ do
+    let sieve = "./examples/positive/showcase/sieve.glask"
+    it (sieve ++ " typechecks") $ do
+      r <- type'check sieve
+      r `shouldBe` Nothing
+
+    it "sieve yields the first primes" $ do
+      r <- eval'within "at 9 first'primes" sieve
+      r `shouldBe` Right (Literal (Lit'Int 29))
+
+    let sieve'layout = "./examples/positive/showcase/sieve.layout.glask"
+    it (sieve'layout ++ " typechecks") $ do
+      r <- type'check sieve'layout
+      r `shouldBe` Nothing
+
+    let expr = "./examples/positive/showcase/expr.glask"
+    it (expr ++ " typechecks") $ do
+      r <- type'check expr
+      r `shouldBe` Nothing
+
+    it "overloaded program evaluates to 14 at Int" $ do
+      r <- eval'within "answer'int" expr
+      r `shouldBe` Right (Literal (Lit'Int 14))
+
+    it "overloaded program agrees through the Expr evaluator" $ do
+      r <- eval'within "check" expr
+      r `shouldBe` Right (Literal (Lit'Int 14))
+
+    let expr'layout = "./examples/positive/showcase/expr.layout.glask"
+    it (expr'layout ++ " typechecks") $ do
+      r <- type'check expr'layout
+      r `shouldBe` Nothing
+
   describe "Testing if with higher-rank branches" $ do
     let file = "./examples/positive/prenex/branch.glask"
     it (file ++ " typechecks") $ do

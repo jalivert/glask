@@ -1,0 +1,51 @@
+module Main where
+infixl 6 +
+infixl 7 *
+infixl 6 <+>
+infix 4 ==
+class Num a where
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+instance Num Int where
+  (+) x y = int#+ (x, y)
+  (-) x y = int#- (x, y)
+  (*) x y = int#* (x, y)
+class Eq a where
+  (==) :: a -> a -> Bool
+instance Eq Int where
+  (==) x y = int#== (x, y)
+data Bool = True | False
+data String = String [Char]
+class Show a where
+  show :: a -> String
+instance Show Int where
+  show x = String (int#show x)
+class Arith a where
+  lit :: Int -> a
+  add :: a -> a -> a
+  mul :: a -> a -> a
+data Expr = Lit Int | Add Expr Expr | Mul Expr Expr
+instance Arith Expr where
+  lit n = Lit n
+  add x y = Add x y
+  mul x y = Mul x y
+instance Arith Int where
+  lit n = n
+  add x y = x + y
+  mul x y = x * y
+(<+>) :: Expr -> Expr -> Expr
+(<+>) x y = Add x y
+prog :: Arith a => a
+prog = add (lit 2) (mul (lit 3) (lit 4))
+answer'int :: Int
+answer'int = prog
+answer'expr :: Expr
+answer'expr = prog
+sugared :: Expr
+sugared = Lit 1 <+> Lit 2
+eval'expr :: Expr -> Int
+eval'expr (Lit n) = n
+eval'expr (Add x y) = eval'expr x + eval'expr y
+eval'expr (Mul x y) = eval'expr x * eval'expr y
+check = eval'expr answer'expr

@@ -52,12 +52,14 @@ amb'cases =
   , ("026 qualified method under constructor", qualified, "Wrap vaval")
   , ("084 hk class method", hk'class, "pure")
   , ("094 prenex nested constraint", nested, "f")
+  , ("186 overloaded program bare is ambiguous", expr, "prog")
   ]
   where
     class'    = "./examples/positive/classes/class.glask"
     qualified = "./examples/positive/classes/qualified.glask"
     hk'class  = "./examples/positive/classes/higherkinded.glask"
     nested    = "./examples/positive/prenex/nested.glask"
+    expr      = "./examples/positive/showcase/expr.glask"
 
 
 -- (test'name, fixture, expression, expected scheme string via `show`)
@@ -246,6 +248,11 @@ cases =
   , ("178 numeric triple", bool, "(1, 2, 3)", "(forall a b c . (Num c, Num b, Num a) => (a, b, c))")
   , ("179 annotated triple", bool, "((1, True, 'a') :: (Int, Bool, Char))", "(Int, Bool, Char)")
   , ("180 applied plus operator", arith, "(+) 1 2", "(forall a . Num a => a)")
+  , ("181 sieve divides", sieve, "divides", "Int -> Int -> Bool")
+  , ("182 sieve combinator", sieve, "sieve", "[Int] -> [Int]")
+  , ("183 sieve primes head", sieve, "head primes", "Int")
+  , ("184 expr overloaded answer at Int", expr, "answer'int", "Int")
+  , ("185 expr tree answer", expr, "answer'expr", "Expr")
   ]
   where
     bool      = "./examples/positive/data/bool.glask"
@@ -271,6 +278,8 @@ cases =
     nested    = "./examples/positive/prenex/nested.glask"
     local     = "./examples/positive/prenex/local.glask"
     branch    = "./examples/positive/prenex/branch.glask"
+    sieve     = "./examples/positive/showcase/sieve.glask"
+    expr      = "./examples/positive/showcase/expr.glask"
 
 
 -- Self-contained copy of the `scheme'within` helper pattern from ExamplesSpec:

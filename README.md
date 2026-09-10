@@ -162,6 +162,187 @@ t'over'poly = let f :: Ident a => a -> a
               in pick (f 5, f True)
 ```
 
+## Showcase
+
+Two larger programs in `examples/positive/showcase/` serve as the language's
+benchmarks. Both are typechecked, evaluated, and REPL-transcripted by the
+test suite, in brace and layout notation alike.
+
+A lazy prime sieve (`showcase/sieve.glask`) — an infinite Eratosthenes sieve
+over lazy lists. Integer division truncates, so `mod` is built from `/`, `*`,
+and `-`:
+
+```haskell
+infixl 6 +
+infixl 6 -
+infixl 7 *
+infixl 7 /
+infix 4 ==
+infixr 5 :
+class Num a where
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+instance Num Int where
+  (+) x y = int#+ (x, y)
+  (-) x y = int#- (x, y)
+  (*) x y = int#* (x, y)
+class Div a where
+  (/) :: a -> a -> a
+instance Div Int where
+  (/) x y = int#/ (x, y)
+class Eq a where
+  (==) :: a -> a -> Bool
+instance Eq Int where
+  (==) x y = int#== (x, y)
+data Bool = True | False
+not True = False
+not False = True
+mod :: Int -> Int -> Int
+mod x y = x - (x / y) * y
+divides :: Int -> Int -> Bool
+divides d n = mod n d == 0
+from :: Int -> [Int]
+from n = n : from (n + 1)
+filter :: (a -> Bool) -> [a] -> [a]
+filter _ [] = []
+filter p (x : xs) = if p x then x : filter p xs else filter p xs
+sieve :: [Int] -> [Int]
+sieve (p : xs) = p : sieve (filter (\ x -> not (divides p x)) xs)
+primes :: [Int]
+primes = sieve (from 2)
+```
+
+`filter` stays fully polymorphic; the numeric spine is pinned to `Int` by
+annotation. Left floating, its `(Num a, Div a, Eq a)` constraints have no use
+site to resolve against, and the compiler rejects the program as ambiguous —
+the same as Haskell. In the REPL:
+
+```
+glask λ > at 9 first'primes
+          29
+glask λ > :t sieve
+          sieve :: [Int] -> [Int]
+glask λ > :t divides
+          divides :: Int -> Int -> Bool
+```
+
+An overloaded arithmetic DSL (`showcase/expr.glask`) — one program evaluated
+at two types, the dictionary-passing benchmark:
+
+```haskell
+infixl 6 +
+infixl 7 *
+infixl 6 <+>
+class Num a where
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+instance Num Int where
+  (+) x y = int#+ (x, y)
+  (-) x y = int#- (x, y)
+  (*) x y = int#* (x, y)
+class Arith a where
+  lit :: Int -> a
+  add :: a -> a -> a
+  mul :: a -> a -> a
+data Expr = Lit Int | Add Expr Expr | Mul Expr Expr
+instance Arith Expr where
+  lit n = Lit n
+  add x y = Add x y
+  mul x y = Mul x y
+instance Arith Int where
+  lit n = n
+  add x y = x + y
+  mul x y = x * y
+(<+>) :: Expr -> Expr -> Expr
+(<+>) x y = Add x y
+prog :: Arith a => a
+prog = add (lit 2) (mul (lit 3) (lit 4))
+answer'int :: Int
+answer'int = prog
+answer'expr :: Expr
+answer'expr = prog
+sugared :: Expr
+sugared = Lit 1 <+> Lit 2
+eval'expr :: Expr -> Int
+eval'expr (Lit n) = n
+eval'expr (Add x y) = eval'expr x + eval'expr y
+eval'expr (Mul x y) = eval'expr x * eval'expr y
+check = eval'expr answer'expr
+```
+
+The same `prog` elaborates with the `Int` dictionary to `14` and with the
+`Expr` dictionary to the syntax tree, and a tree evaluator agrees with the
+direct computation:
+
+```
+glask λ > answer'int
+          14
+glask λ > check
+          14
+glask λ > :t answer'expr
+          answer'expr :: Expr
+```
+
+A bare `prog` query is ambiguous — no use site selects a dictionary — and the
+compiler reports it instead of guessing.
+
+## The type system
+
+Type classes elaborate by dictionary passing (thesis §1.9 and §2.5):
+overloaded identifiers are collected as constraints during inference and
+rewritten to dictionary selections once the constraints are solved (thesis
+§2.5.3). Instances can themselves be qualified
+(`examples/prelude/prelude.glask`):
+
+```haskell
+class Num a
+instance Num Int
+data Wrap a = Wrap a
+class Constant a where
+  vaval :: a
+instance Num a => Constant (Wrap a) where
+  vaval = Wrap 23
+```
+
+Inference is bidirectional and constraint-based, in the style of *Typing
+Haskell in Haskell* (thesis §1.4 and §2.4): literals and lambdas are checked
+against expected types, predicates are gathered, reduced against the instance
+environment, and whatever remains is generalized or kept as a qualified
+scheme. Higher-rank types work in annotations and in locally-bound
+polymorphic bindings alike (thesis §1.7 and §2.4.8 — the tour above shows
+both).
+
+Unsatisfiable constraints are errors, not warnings. A fractional literal
+checked against `Int` fails for want of a `Fractional Int` instance:
+
+`didn't find any instances of a class 'Fractional' for a type 'Int'`
+
+and an ambiguous program is rejected with `cannot resolve ambiguity`.
+
+## Data, matching, laziness
+
+Data declarations take parameters of any kind, with kinds inferred by the
+kind checker — including higher-kinded ones (thesis §1.6):
+
+```haskell
+data Maybe a = Nothing | Just a
+data Record m a = Rec { a :: Int, b :: Maybe a, c :: m a }
+```
+
+(`examples/positive/data/records.glask`, where `m` gets kind `* -> *`).
+Constructors are matched with first-match patterns over literals, variables,
+wildcards, constructors, and tuples (thesis §1.6.4); `tail` above infers a
+polymorphic list-to-`Maybe` scheme.
+
+Evaluation is non-strict (thesis §1.12): infinite structures are ordinary
+values. `ones = 1 : ones` (`examples/positive/evaluate/ev-lazy.glask`) would
+diverge if fully forced and never needs to be — `take`, `head`, and the
+sieve's `filter` only force the spine they consume, so `primes` is a genuine
+infinite list of which the suite observes the first ten: 2, 3, 5, 7, 11, 13,
+17, 19, 23, 29.
+
 ## The REPL
 
 ```
@@ -193,7 +374,7 @@ $ cabal test all
 ```
 
 The test suite typechecks every program in `examples/positive`, evaluates selected
-terms, and checks inferred schemes — currently 1052 examples, 0 failures. Each
+terms, and checks inferred schemes — currently 1096 examples, 0 failures. Each
 `*.layout.glask` twin additionally has a parse golden snapshot.
 
 ## Project structure
@@ -212,6 +393,9 @@ src/Interpreter        translation to the core language and the lazy evaluator
 src/REPL               file loading, the interactive loop, expression queries
 examples/positive      tested example programs, grouped by feature
                        (`*.layout.glask` twins cover implicit layout)
+examples/positive/showcase
+                       flagship programs: a lazy prime sieve and an
+                       overloaded arithmetic DSL
 examples/prelude       the REPL preludes (`prelude`, `protolude`, …)
 examples/scratch       untried example drafts
 examples/negative      programs that must fail (typecheck or parse)

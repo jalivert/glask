@@ -1,0 +1,33 @@
+-- parse dump: ./examples/positive/showcase/expr.layout.glask
+-- decls: 31 ["Fixity","Fixity","Fixity","Fixity","Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Data'Decl","Class'Decl","Instance","Class'Decl","Data'Decl","Instance","Instance","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "<+>" Term'Id'Var "x" Term'Id'Var "y" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "prog" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "answer'int" = prog
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "answer'expr" = prog
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "sugared" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "eval'expr" Term'Id'Const "Lit" Term'Id'Var "n" = n
+[[Binding]]    Term'Id'Var "eval'expr" Term'Id'Const "Add" Term'Id'Var "x" Term'Id'Var "y" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "eval'expr" Term'Id'Const "Mul" Term'Id'Var "x" Term'Id'Var "y" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "check" = Not Implemented: Show for Term'Expr

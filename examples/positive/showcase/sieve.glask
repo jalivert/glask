@@ -1,0 +1,61 @@
+module Main where
+{ infixl 6 +
+; infixl 6 -
+; infixl 7 *
+; infixl 7 /
+; infix 4 ==
+; infix 4 <
+; infixr 5 :
+; class Num a where
+  { (+) :: a -> a -> a
+  ; (-) :: a -> a -> a
+  ; (*) :: a -> a -> a }
+; instance Num Int where
+  { (+) x y = int#+ (x, y)
+  ; (-) x y = int#- (x, y)
+  ; (*) x y = int#* (x, y) }
+; class Div a where
+  { (/) :: a -> a -> a }
+; instance Div Int where
+  { (/) x y = int#/ (x, y) }
+; class Eq a where
+  { (==) :: a -> a -> Bool }
+; instance Eq Int where
+  { (==) x y = int#== (x, y) }
+; class Ord a where
+  { (<) :: a -> a -> Bool }
+; instance Ord Int where
+  { (<) x y = int#< (x, y) }
+; data Bool = True | False
+; data String = String [Char]
+; class Show a where
+  { show :: a -> String }
+; instance Show Int where
+  { show x = String (int#show x) }
+; not True = False
+; not False = True
+; mod :: Int -> Int -> Int
+; mod x y = x - (x / y) * y
+; divides :: Int -> Int -> Bool
+; divides d n = mod n d == 0
+; from :: Int -> [Int]
+; from n = n : from (n + 1)
+; head :: [a] -> a
+; head (x : _) = x
+; at :: Int -> [a] -> a
+; at 0 (x : _) = x
+; at n (_ : xs) = at (n - 1) xs
+; take :: Int -> [a] -> [a]
+; take _ [] = []
+; take 0 _ = []
+; take n (x : xs) = x : take (n - 1) xs
+; filter :: (a -> Bool) -> [a] -> [a]
+; filter _ [] = []
+; filter p (x : xs) = if p x then x : filter p xs else filter p xs
+; sieve :: [Int] -> [Int]
+; sieve (p : xs) = p : sieve (filter (\ x -> not (divides p x)) xs)
+; primes :: [Int]
+; primes = sieve (from 2)
+; first'primes :: [Int]
+; first'primes = take 10 primes
+}

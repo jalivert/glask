@@ -1,0 +1,47 @@
+-- parse dump: ./examples/positive/showcase/sieve.glask
+-- decls: 45 ["Fixity","Fixity","Fixity","Fixity","Fixity","Fixity","Fixity","Class'Decl","Instance","Class'Decl","Instance","Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Data'Decl","Class'Decl","Instance","Binding","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Signature","Binding","Binding","Signature","Binding","Binding","Binding","Signature","Binding","Binding","Signature","Binding","Signature","Binding","Signature","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "not" Term'Id'Const "True" = False
+[[Binding]]    Term'Id'Var "not" Term'Id'Const "False" = True
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "mod" Term'Id'Var "x" Term'Id'Var "y" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "divides" Term'Id'Var "d" Term'Id'Var "n" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "from" Term'Id'Var "n" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "head" Term'Id'Var "x" Term'Id'Const ":" _ = x
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "at" 0 Term'Id'Var "x" Term'Id'Const ":" _ = x
+[[Binding]]    Term'Id'Var "at" Term'Id'Var "n" _ Term'Id'Const ":" Term'Id'Var "xs" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "take" _ Term'Id'Const "[]" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "take" 0 _ = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "take" Term'Id'Var "n" Term'Id'Var "x" Term'Id'Const ":" Term'Id'Var "xs" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "filter" _ Term'Id'Const "[]" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "filter" Term'Id'Var "p" Term'Id'Var "x" Term'Id'Const ":" Term'Id'Var "xs" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "sieve" Term'Id'Var "p" Term'Id'Const ":" Term'Id'Var "xs" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "primes" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "first'primes" = Not Implemented: Show for Term'Expr

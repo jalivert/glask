@@ -1,0 +1,3 @@
+-- eval: check
+-- in: ./examples/positive/showcase/expr.glask
+Right (Literal 14)

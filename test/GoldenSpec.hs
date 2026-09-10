@@ -315,6 +315,8 @@ parse'cases =
   , ("prenex-branch", ex "prenex/branch.glask", pg "prenex-branch")
   , ("prenex-local", ex "prenex/local.glask", pg "prenex-local")
   , ("prenex-nested", ex "prenex/nested.glask", pg "prenex-nested")
+  , ("showcase-sieve", ex "showcase/sieve.glask", pg "showcase-sieve")
+  , ("showcase-expr", ex "showcase/expr.glask", pg "showcase-expr")
   , ("annotations-forall-layout", ex "annotations/forall.layout.glask", pg "annotations-forall-layout")
   , ("classes-class-layout", ex "classes/class.layout.glask", pg "classes-class-layout")
   , ("classes-higherkinded-layout", ex "classes/higherkinded.layout.glask", pg "classes-higherkinded-layout")
@@ -338,6 +340,8 @@ parse'cases =
   , ("prenex-branch-layout", ex "prenex/branch.layout.glask", pg "prenex-branch-layout")
   , ("prenex-local-layout", ex "prenex/local.layout.glask", pg "prenex-local-layout")
   , ("prenex-nested-layout", ex "prenex/nested.layout.glask", pg "prenex-nested-layout")
+  , ("showcase-sieve-layout", ex "showcase/sieve.layout.glask", pg "showcase-sieve-layout")
+  , ("showcase-expr-layout", ex "showcase/expr.layout.glask", pg "showcase-expr-layout")
   ]
   where
     ex rel = "./examples/positive/" ++ rel
@@ -384,6 +388,9 @@ eval'cases =
   , ("local-pure-poly", ex "prenex/local.glask", "t'pure'poly", eg "local-pure-poly")
   , ("local-over-mono", ex "prenex/local.glask", "t'over'mono", eg "local-over-mono")
   , ("local-over-poly", ex "prenex/local.glask", "t'over'poly", eg "local-over-poly")
+  , ("showcase-tenth-prime", ex "showcase/sieve.glask", "at 9 first'primes", eg "showcase-tenth-prime")
+  , ("showcase-answer-int", ex "showcase/expr.glask", "answer'int", eg "showcase-answer-int")
+  , ("showcase-check", ex "showcase/expr.glask", "check", eg "showcase-check")
   ]
   where
     ex rel = "./examples/positive/" ++ rel
@@ -424,6 +431,16 @@ repl'cases =
     , ex "evaluate/lazy.glask"
     , [":t length", ":t take", ":p take 2 [1]", ":k Bool", ":q"]
     , rg "lazy-introspect"
+    )
+  , ( "showcase-sieve"
+    , ex "showcase/sieve.glask"
+    , ["at 9 first'primes", ":t sieve", ":t divides", ":q"]
+    , rg "showcase-sieve"
+    )
+  , ( "showcase-expr"
+    , ex "showcase/expr.glask"
+    , ["answer'int", "check", ":t answer'expr", ":q"]
+    , rg "showcase-expr"
     )
   ]
   where

@@ -156,8 +156,16 @@ eval'cases =
   , ("double multiplication", ev'arith, "double'd * double'd", Literal (Lit'Double 6.25))
   , ("applied plus operator", ev'arith, "(+) 1 2", Literal (Lit'Int 3))
   , ("parenthesised operator application", ev'ops, "(+) 2 3", Literal (Lit'Int 5))
+  , ("first prime is 2", showcase'sieve, "head primes", Literal (Lit'Int 2))
+  , ("tenth prime is 29", showcase'sieve, "at 9 first'primes", Literal (Lit'Int 29))
+  , ("divides holds", showcase'sieve, "divides 3 9", Data "True" [])
+  , ("overloaded program at Int", showcase'expr, "answer'int", Literal (Lit'Int 14))
+  , ("overloaded program agrees through Expr", showcase'expr, "check", Literal (Lit'Int 14))
+  , ("custom operator builds the tree", showcase'expr, "eval'expr sugared", Literal (Lit'Int 3))
   ]
   where
+    showcase'sieve = "./examples/positive/showcase/sieve.glask"
+    showcase'expr  = "./examples/positive/showcase/expr.glask"
     ev'arith = "./examples/positive/evaluate/ev-arith.glask"
     ev'lazy  = "./examples/positive/evaluate/ev-lazy.glask"
     ev'data  = "./examples/positive/evaluate/ev-data.glask"
