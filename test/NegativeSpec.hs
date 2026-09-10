@@ -234,6 +234,7 @@ expr'cases =
   , ("bool for maybe", matching, "test' True", ["Couldn't match type", "`Bool`", "Maybe"])
   , ("bool for list", matching, "case tail True of { _ -> 1 }", ["Couldn't match type", "`Bool`"])
   , ("unsatisfiable show on char", nested, "f 1 'a'", ["didn't find any instances", "'Show'", "'Char'"])
+  , ("fractional literal against Int", matching, "(2.5 :: Int)", ["didn't find any instances", "'Fractional'", "'Int'"])
   , ("char for int", nested, "apply inc 'a'", ["Couldn't match type", "`Char", "`Int`"])
   , ("show not in scope", arith, "show 1", ["Unknown variable show"])
   ]
