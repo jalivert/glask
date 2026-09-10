@@ -353,6 +353,8 @@ spec = do
           , ("fixity two names", parse'decls "infixl 5 +, *" `shouldBe` [Fixity Infix Assoc.Left 5 "+", Fixity Infix Assoc.Left 5 "*"])
           , ("fixity paren op", parse'decls "infixl 5 (+)" `shouldBe` [Fixity Infix Assoc.Left 5 "+"])
           , ("fixity three names", parse'decls "infixr 0 $, +++, ???" `shouldBe` [Fixity Infix Assoc.Right 0 "$", Fixity Infix Assoc.Right 0 "+++", Fixity Infix Assoc.Right 0 "???"])
+          , ("fixity bare minus", parse'decls "infixl 6 -" `shouldBe` [Fixity Infix Assoc.Left 6 "-"])
+          , ("fixity bare cons", parse'decls "infixr 5 :" `shouldBe` [Fixity Infix Assoc.Right 5 ":"])
           , ("data three nullary", parse'decls "data E2 = A | B | C" `shouldBe` [Data'Decl "E2" [] [Con'Decl "A" [], Con'Decl "B" [], Con'Decl "C" []]])
           , ("data unit alias", parse'decls "data Unit2 = U2" `shouldBe` [Data'Decl "Unit2" [] [Con'Decl "U2" []]])
           , ("data pair params", parse'decls "data Pair2 a b = P2 a b" `shouldBe` [Data'Decl "Pair2" ["a", "b"] [Con'Decl "P2" [Term'T'Id (Term'Id'Var "a"), Term'T'Id (Term'Id'Var "b")]]])
