@@ -56,9 +56,8 @@ Dijkstra's shunting-yard algorithm (thesis §1.8 and §2.3.3), extended with
 unary operators and same-precedence mixing. One rule to know: an operator used
 in an expression needs a fixity declaration in scope.
 
-The thesis introduces the triangle `|>` — the author's pizza operator, named for
-the slice it resembles. Combined with a postfix `!` over an ordinary infix `+`,
-precedence alone disambiguates the chain:
+The thesis introduces the triangle `|>`. Combined with a postfix `!` over an
+ordinary infix `+`, precedence alone disambiguates the chain:
 
 ```haskell
 prefix 9 |>
