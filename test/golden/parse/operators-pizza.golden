@@ -1,9 +1,0 @@
--- parse dump: ./examples/positive/operators/pizza.glask
--- decls: 7 ["Class'Decl","Instance","Fixity","Fixity","Signature","Binding","Binding"]
-Not Implemented: Show for Term'Decl
-Not Implemented: Show for Term'Decl
-Not Implemented: Show for Term'Decl
-Not Implemented: Show for Term'Decl
-Not Implemented: Show for Term'Decl
-[[Binding]]    Term'Id'Var ">" Term'Id'Var "x" Term'Id'Var "y" = Not Implemented: Show for Term'Expr
-[[Binding]]    Term'Id'Var "meal" = Not Implemented: Show for Term'Expr

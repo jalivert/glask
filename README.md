@@ -56,8 +56,9 @@ Dijkstra's shunting-yard algorithm (thesis §1.8 and §2.3.3), extended with
 unary operators and same-precedence mixing. One rule to know: an operator used
 in an expression needs a fixity declaration in scope.
 
-The thesis introduces the triangle `|>`; combined with a postfix `!` over an
-ordinary infix `+`, precedence alone disambiguates the chain:
+The thesis introduces the triangle `|>` — the author's pizza operator, named for
+the slice it resembles. Combined with a postfix `!` over an ordinary infix `+`,
+precedence alone disambiguates the chain:
 
 ```haskell
 prefix 9 |>
@@ -74,24 +75,6 @@ expr = |> 1 + 2 !
 ```
 
 `expr` parses as `(|> 1) + (2 !)` and evaluates to `3`.
-
-Pushing the flexibility further is the author's pizza operator `(>`, named for
-the slice it resembles (`examples/positive/operators/pizza.glask`): a
-right-associative infix sitting below `-`, so the slice takes the whole
-right-hand side:
-
-```haskell
-infixl 6 -
-infixr 3 >
-
-(>) :: Int -> Int -> Int
-(>) x y = x - y
-
-meal = 10 > 3 - 1
-```
-
-`meal` parses as `10 > (3 - 1)` and evaluates to `8`. Note the fixity
-declaration names the bare operator: `infixr 3 >`.
 
 And a backticked function as a weak prefix operator (thesis §1.8, live in
 `examples/prelude/protolude.glask` as ``prefixr 0 `print` ``):
