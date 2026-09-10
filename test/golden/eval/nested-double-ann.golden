@@ -1,0 +1,3 @@
+-- eval: t'double'ann
+-- in: ./examples/positive/prenex/nested.glask
+Right (Literal 6)

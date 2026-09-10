@@ -1,0 +1,8 @@
+-- parse dump: ./examples/positive/classes/class.glask
+-- decls: 6 ["Class'Decl","Instance","Class'Decl","Instance","Class'Decl","Instance"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl

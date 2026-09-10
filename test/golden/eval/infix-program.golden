@@ -1,0 +1,3 @@
+-- eval: program
+-- in: ./examples/positive/operators/infix.glask
+Right (Literal 1)

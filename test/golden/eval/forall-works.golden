@@ -1,0 +1,3 @@
+-- eval: works
+-- in: ./examples/positive/annotations/forall.glask
+Right (Data "Just" [Promise 12])

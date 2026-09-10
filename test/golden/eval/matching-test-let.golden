@@ -1,0 +1,3 @@
+-- eval: test''
+-- in: ./examples/positive/evaluate/matching.glask
+Right (Data "Just" [Promise 71])

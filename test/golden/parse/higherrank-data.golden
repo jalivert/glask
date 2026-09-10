@@ -1,0 +1,12 @@
+-- parse dump: ./examples/positive/higher-rank/data.glask
+-- decls: 10 ["Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Signature","Binding","Signature","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "fn" = fn
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "higher" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "higher'" = Not Implemented: Show for Term'Expr

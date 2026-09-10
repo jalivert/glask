@@ -1,0 +1,12 @@
+-- parse dump: ./examples/positive/prenex/branch.glask
+-- decls: 10 ["Fixity","Class'Decl","Instance","Data'Decl","Signature","Binding","Signature","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "br1" Term'Id'Var "x" Term'Id'Var "y" Term'Id'Var "z" = y
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "br2" Term'Id'Var "x" Term'Id'Var "y" Term'Id'Var "z" = y
+[[Binding]]    Term'Id'Var "t'if'then" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'if'else" = Not Implemented: Show for Term'Expr

@@ -1,0 +1,11 @@
+-- parse dump: ./examples/positive/higher-rank/case.glask
+-- decls: 9 ["Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Signature","Binding","Signature","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "fn" = fn
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "higher'match" Term'Id'Const "H" Term'Id'Var "fn" Term'Id'Var "a" Term'Id'Var "b" Term'Id'Var "c" = Not Implemented: Show for Term'Expr

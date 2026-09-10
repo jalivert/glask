@@ -1,0 +1,51 @@
+module Main where
+{ infixl 7 *
+; infixl 6 +
+; infixl 6 -
+; infix 4 ==
+; infix 4 <
+; infix 4 >
+; class Num a where
+  { (+) :: a -> a -> a
+  ; (-) :: a -> a -> a
+  ; (*) :: a -> a -> a }
+; instance Num Int where
+  { (+) x y = int#+ (x, y)
+  ; (-) x y = int#- (x, y)
+  ; (*) x y = int#* (x, y) }
+; instance Num Double where
+  { (+) x y = double#+ (x, y)
+  ; (-) x y = double#- (x, y)
+  ; (*) x y = double#* (x, y) }
+; data Bool = True | False
+; class Eq a where
+  { (==) :: a -> a -> Bool }
+; instance Eq Int where
+  { (==) x y = int#== (x, y) }
+; class Ord a where
+  { (<) :: a -> a -> Bool
+  ; (>) :: a -> a -> Bool }
+; instance Ord Int where
+  { (<) x y = int#< (x, y)
+  ; (>) x y = int#> (x, y) }
+; data String = String [Char]
+; class Show a where
+  { show :: a -> String }
+; instance Show Int where
+  { show x = String (int#show x) }
+; instance Show Bool where
+  { show b = if b then String ['T'] else String ['F'] }
+; not True = False
+; not False = True
+; and True True = True
+; and _ _ = False
+; or False False = False
+; or _ _ = True
+; div x y = int#/ (x, y)
+; neg x = 0 - x
+; square x = x * x
+; class Fractional a
+; instance Fractional Double
+; double'd :: Double
+; double'd = 2.5
+}

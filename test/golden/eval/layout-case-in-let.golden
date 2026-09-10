@@ -1,0 +1,3 @@
+-- eval: case'in'let
+-- in: ./examples/positive/layout/basic.glask
+Right (Literal 7)

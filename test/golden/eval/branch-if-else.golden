@@ -1,0 +1,3 @@
+-- eval: t'if'else
+-- in: ./examples/positive/prenex/branch.glask
+Right (Literal 23)

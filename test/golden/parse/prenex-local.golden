@@ -1,0 +1,14 @@
+-- parse dump: ./examples/positive/prenex/local.glask
+-- decls: 12 ["Fixity","Class'Decl","Instance","Class'Decl","Instance","Instance","Data'Decl","Signature","Binding","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "pick" (Term'Id'Var "a", Term'Id'Var "b") = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'pure'poly" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'over'mono" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "t'over'poly" = Not Implemented: Show for Term'Expr

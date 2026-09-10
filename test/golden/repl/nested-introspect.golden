@@ -1,0 +1,4 @@
+          inc :: (forall a . Num a => a -> a)
+Parsed: apply inc 3
+          Int :: *
+Bye!

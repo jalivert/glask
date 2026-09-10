@@ -1,0 +1,3 @@
+-- eval: length (take 4 endless'list)
+-- in: ./examples/positive/evaluate/lazy.glask
+Right (Literal 4)

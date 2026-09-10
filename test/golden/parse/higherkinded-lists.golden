@@ -1,0 +1,10 @@
+-- parse dump: ./examples/positive/higher-kinded/lists.glask
+-- decls: 8 ["Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Signature","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "tail" Term'Id'Const "[]" = Nothing
+[[Binding]]    Term'Id'Var "tail" Term'Id'Var "a" Term'Id'Const ":" Term'Id'Var "as" = Not Implemented: Show for Term'Expr

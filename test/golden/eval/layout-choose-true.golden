@@ -1,0 +1,3 @@
+-- eval: choose True
+-- in: ./examples/positive/layout/basic.glask
+Right (Literal 1)

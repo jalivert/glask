@@ -1,0 +1,37 @@
+module Main where
+{ infixl 6 +
+; infixl 6 -
+; infix 4 ==
+; class Num a where
+  { (+) :: a -> a -> a
+  ; (-) :: a -> a -> a }
+; instance Num Int where
+  { (+) x y = int#+ (x, y)
+  ; (-) x y = int#- (x, y) }
+; data Bool = True | False
+; class Eq a where
+  { (==) :: a -> a -> Bool }
+; instance Eq Int where
+  { (==) x y = int#== (x, y) }
+; data String = String [Char]
+; class Show a where
+  { show :: a -> String }
+; instance Show Int where
+  { show x = String (int#show x) }
+; instance Show Bool where
+  { show b = if b then String ['T'] else String ['F'] }
+; data List a = Nil | Cons a (List a)
+; endless'list = 23 : endless'list
+; ones = 1 : ones
+; normal'list = [1,2,3,4]
+; take _ [] = []
+; take 0 _ = []
+; take n (a : as) = a : take (n - 1) as
+; length [] = 0
+; length (x : xs) = 1 + length xs
+; head (x : _) = x
+; kestrel x y = x
+; loop = loop
+; sum'list [] = 0
+; sum'list (x : xs) = x + sum'list xs
+}

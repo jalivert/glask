@@ -1,0 +1,3 @@
+-- eval: tail []
+-- in: ./examples/positive/higher-kinded/lists.glask
+Right (Data "Nothing" [])

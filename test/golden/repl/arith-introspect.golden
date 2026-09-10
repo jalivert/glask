@@ -1,0 +1,8 @@
+          2 + 3 :: (forall a . Num a => a)
+Parsed: (2 + 3)
+          Int :: *
+Core:
++ d-Num-Int 2 3
+Desugared:
++ d-Num-Int 2 3
+Bye!

@@ -1,0 +1,5 @@
+          length :: (forall a . [a] -> Int)
+          take :: (forall a . Int -> [a] -> [a])
+Parsed: take 2 (1 : [])
+          Bool :: *
+Bye!

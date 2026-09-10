@@ -1,0 +1,3 @@
+-- eval: True
+-- in: ./examples/positive/data/bool.glask
+Right (Data "True" [])

@@ -1,0 +1,39 @@
+module Main where
+{ infixl 7 *
+; infixl 6 +
+; infixl 6 -
+; infixr 5 +++
+; infixl 5 ***
+; prefixl 8 !!!
+; postfixl 8 ???
+; class Num a where
+  { (+) :: a -> a -> a
+  ; (-) :: a -> a -> a
+  ; (*) :: a -> a -> a }
+; instance Num Int where
+  { (+) x y = int#+ (x, y)
+  ; (-) x y = int#- (x, y)
+  ; (*) x y = int#* (x, y) }
+; data Bool = True | False
+; data String = String [Char]
+; class Show a where
+  { show :: a -> String }
+; instance Show Int where
+  { show x = String (int#show x) }
+; instance Show Bool where
+  { show b = if b then String ['T'] else String ['F'] }
+; (+++) :: Int -> Int -> Int
+; (+++) x y = x + y + 1
+; (***) :: Int -> Int -> Int
+; (***) x y = x * y + x + y
+; (!!!) :: Int -> Int
+; (!!!) x = 0 - x
+; (???) :: Int -> Int
+; (???) x = x + 100
+; plus :: Int -> Int -> Int
+; plus x y = x + y
+; ($) :: (a -> b) -> a -> b
+; ($) fn e = fn e
+; twice f x = f (f x)
+; inc x = x + 1
+}

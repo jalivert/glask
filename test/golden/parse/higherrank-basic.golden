@@ -1,0 +1,8 @@
+-- parse dump: ./examples/positive/higher-rank/basic.glask
+-- decls: 6 ["Class'Decl","Instance","Class'Decl","Instance","Signature","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "apply" Term'Id'Var "f" Term'Id'Var "x" Term'Id'Var "y" = Not Implemented: Show for Term'Expr

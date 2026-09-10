@@ -1,0 +1,3 @@
+-- eval: int
+-- in: ./examples/positive/evaluate/matching.glask
+Right (Literal 23)

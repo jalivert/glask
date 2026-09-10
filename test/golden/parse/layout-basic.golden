@@ -1,0 +1,10 @@
+-- parse dump: ./examples/positive/layout/basic.glask
+-- decls: 8 ["Fixity","Class'Decl","Instance","Data'Decl","Binding","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "double'loc" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "choose" Term'Id'Var "b" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "nested'one'line" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "case'in'let" = Not Implemented: Show for Term'Expr

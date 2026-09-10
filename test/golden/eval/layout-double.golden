@@ -1,0 +1,3 @@
+-- eval: double'loc
+-- in: ./examples/positive/layout/basic.glask
+Right (Literal 3)

@@ -1,0 +1,3 @@
+-- eval: length normal'list
+-- in: ./examples/positive/evaluate/lazy.glask
+Right (Literal 4)

@@ -1,0 +1,3 @@
+-- eval: t'over'mono
+-- in: ./examples/positive/prenex/local.glask
+Right (Literal 6)

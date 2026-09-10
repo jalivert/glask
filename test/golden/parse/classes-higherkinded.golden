@@ -1,0 +1,9 @@
+-- parse dump: ./examples/positive/classes/higherkinded.glask
+-- decls: 7 ["Class'Decl","Instance","Class'Decl","Instance","Data'Decl","Class'Decl","Class'Decl"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl

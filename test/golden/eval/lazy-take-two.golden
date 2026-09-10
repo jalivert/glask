@@ -1,0 +1,3 @@
+-- eval: program1
+-- in: ./examples/positive/evaluate/lazy.glask
+Right (Data ":" [Promise 36,Promise 37])

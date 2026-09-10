@@ -1,0 +1,44 @@
+module Main where
+{ infixl 6 +
+; infixl 6 -
+; infix 4 ==
+; class Num a where
+  { (+) :: a -> a -> a
+  ; (-) :: a -> a -> a }
+; instance Num Int where
+  { (+) x y = int#+ (x, y)
+  ; (-) x y = int#- (x, y) }
+; data Bool = True | False
+; class Eq a where
+  { (==) :: a -> a -> Bool }
+; instance Eq Int where
+  { (==) x y = int#== (x, y) }
+; data String = String [Char]
+; class Show a where
+  { show :: a -> String }
+; instance Show Int where
+  { show x = String (int#show x) }
+; instance Show Bool where
+  { show b = if b then String ['T'] else String ['F'] }
+; data Maybe a = Nothing | Just a
+; data Either a b = Left a | Right b
+; data Pair a b = Pair a b
+; data Point = Point { px :: Int, py :: Int }
+; fromMaybe _ (Just x) = x
+; fromMaybe d Nothing = d
+; isJustNum (Just _) = 1
+; isJustNum Nothing = 0
+; head (x : _) = x
+; length [] = 0
+; length (x : xs) = 1 + length xs
+; map f [] = []
+; map f (x : xs) = f x : map f xs
+; fst (a, b) = a
+; snd (a, b) = b
+; getx (Point { px = a }) = a
+; bump p = p { px = 9 }
+; origin = Point { px = 3, py = 4 }
+; swapPair (Pair a b) = Pair b a
+; caseDemo m = case m of { Just x -> x; Nothing -> 0 }
+; eitherDemo e = case e of { Left x -> x; Right y -> y }
+}

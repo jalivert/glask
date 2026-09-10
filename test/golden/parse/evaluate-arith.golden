@@ -1,0 +1,5 @@
+-- parse dump: ./examples/positive/evaluate/arith.glask
+-- decls: 3 ["Fixity","Class'Decl","Instance"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl

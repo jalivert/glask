@@ -1,0 +1,3 @@
+-- eval: t'over'poly
+-- in: ./examples/positive/prenex/local.glask
+Right (Literal 99)
