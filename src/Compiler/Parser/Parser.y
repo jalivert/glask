@@ -202,6 +202,7 @@ OpInfix_        ::  { String }
                 :   OpInfix                                         { case $1 of
                                                                       { Term'Id'Var name -> name
                                                                       ; Term'Id'Const name -> name }}
+                |   '(' Op ')'                                      { $2 }
 
 -- {- Fixity Signature -}
 FixitySigns     ::  { [Term'Decl] }

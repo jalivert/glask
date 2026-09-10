@@ -154,6 +154,8 @@ eval'cases =
   , ("double addition", ev'arith, "double'd + double'd", Literal (Lit'Double 5.0))
   , ("double subtraction", ev'arith, "double'd - double'd", Literal (Lit'Double 0.0))
   , ("double multiplication", ev'arith, "double'd * double'd", Literal (Lit'Double 6.25))
+  , ("applied plus operator", ev'arith, "(+) 1 2", Literal (Lit'Int 3))
+  , ("parenthesised operator application", ev'ops, "(+) 2 3", Literal (Lit'Int 5))
   ]
   where
     ev'arith = "./examples/positive/evaluate/ev-arith.glask"

@@ -351,6 +351,7 @@ spec = do
           , ("data nested application", parse'decls "data Nested = N [Maybe Int]" `shouldBe` [Data'Decl "Nested" [] [Con'Decl "N" [Term'T'List (Term'T'App [Term'T'Id (Term'Id'Const "Maybe"), Term'T'Id (Term'Id'Const "Int")])]]])
           , ("data operator constructor", parse'decls "data OpT = (:+) Int Int" `shouldBe` [Data'Decl "OpT" [] [Con'Decl ":+" [Term'T'Id (Term'Id'Const "Int"), Term'T'Id (Term'Id'Const "Int")]]])
           , ("fixity two names", parse'decls "infixl 5 +, *" `shouldBe` [Fixity Infix Assoc.Left 5 "+", Fixity Infix Assoc.Left 5 "*"])
+          , ("fixity paren op", parse'decls "infixl 5 (+)" `shouldBe` [Fixity Infix Assoc.Left 5 "+"])
           , ("fixity three names", parse'decls "infixr 0 $, +++, ???" `shouldBe` [Fixity Infix Assoc.Right 0 "$", Fixity Infix Assoc.Right 0 "+++", Fixity Infix Assoc.Right 0 "???"])
           , ("data three nullary", parse'decls "data E2 = A | B | C" `shouldBe` [Data'Decl "E2" [] [Con'Decl "A" [], Con'Decl "B" [], Con'Decl "C" []]])
           , ("data unit alias", parse'decls "data Unit2 = U2" `shouldBe` [Data'Decl "Unit2" [] [Con'Decl "U2" []]])

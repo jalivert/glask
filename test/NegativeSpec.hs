@@ -226,7 +226,6 @@ expr'cases =
   , ("fibonacci of char", ev'nest, "fib 'a'", ["didn't find any instances", "'Num'", "'Char'"])
   , ("postfix applied to literal", ev'ops, "5 ???", ["didn't find any instances", "'Num'"])
   , ("backticked plain function", ev'ops, "2 `plus` 3", ["Data Not In Scope plus"])
-  , ("parenthesised operator", ev'ops, "(+) 2 3", ["Missing Operand"])
   , ("mixing operator families", ev'ops, "1 +++ 2 *** 3", ["Mixing two operators"])
   , ("dangling infix operator", ev'ops, "1 + * 2", ["Missing Operand"])
   , ("trailing operator", ev'ops, "2 3 +", ["Missing Operand"])

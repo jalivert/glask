@@ -245,6 +245,7 @@ cases =
   , ("177 triple tuple", bool, "(1, True, 'a')", "(forall a . Num a => (a, Bool, Char))")
   , ("178 numeric triple", bool, "(1, 2, 3)", "(forall a b c . (Num c, Num b, Num a) => (a, b, c))")
   , ("179 annotated triple", bool, "((1, True, 'a') :: (Int, Bool, Char))", "(Int, Bool, Char)")
+  , ("180 applied plus operator", arith, "(+) 1 2", "(forall a . Num a => a)")
   ]
   where
     bool      = "./examples/positive/data/bool.glask"

@@ -144,8 +144,14 @@ instance To'AST Term'Expr Expression where
     -- first map the list of Term Expressions to the list of Tokens (GSYA Tokens)
     tokens <- mapM to'token t'exprs
 
-    let -- make the function application explicit
-        explicit'fn'app = make'app'explicit tokens
+    let -- an infix operator in head position has no left operand, so it
+        -- cannot be a binary operation: `(+)` in `(+) 1 2` is an ordinary
+        -- value and application proceeds as usual
+        operand'head = case tokens of
+          o1@Operator{ fixity = Infix } : rest -> Term (term o1) : rest
+          _ -> tokens
+        -- make the function application explicit
+        explicit'fn'app = make'app'explicit operand'head
         -- disambiguate pre/in-fix minus
         disambiguated   = disambiguate'minus explicit'fn'app
 
