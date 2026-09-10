@@ -180,9 +180,9 @@ infer'expr o@(Op op'name) expected = do
 
   return (expr', preds, actual)
 
-infer'expr l@(Lit lit) expected = do
-  (preds, actual) <- infer'lit lit expected
-  return (l, preds, actual)
+infer'expr (Lit lit) expected = do
+  (lit', preds, actual) <- infer'lit lit expected
+  return (Lit lit', preds, actual)
 
 infer'expr (Abs pattern' body) Infer = do
   (pattern'', preds, arg'type, assumptions) <- infer'pattern pattern'

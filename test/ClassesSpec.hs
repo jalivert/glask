@@ -203,10 +203,6 @@ eval'int =
   , ("ten plus twenty", file'arith, "10 + 20", 30)
   , ("three plus four", file'arith, "3 + 4", 7)
   , ("one plus one", file'arith, "1 + 1", 2)
-  -- NOTE: `expl :: Double; expl = 23` evaluates to an Int literal:
-  -- the overloaded integer literal keeps its own representation
-  -- instead of converting (see KNOWN-ISSUES.md).
-  , ("int literal under Double annotation stays Int", file'matching, "expl", 23)
   , ("middle dictionary applies", file'tcsuper, "apply'middle 0", 0)
   , ("chained dictionaries apply", file'tcsuper, "apply'both 10", 10)
   , ("projection of applied lambda", file'matching, "the'what 9", 3)
@@ -221,6 +217,7 @@ eval'int =
 eval'double :: [(String, String, String, Double)]
 eval'double =
   [ ("fractional literal", file'matching, "double", 23.7)
+  , ("int literal under Double annotation becomes Double", file'matching, "expl", 23.0)
   ]
 
 -- 8 scheme cases that must succeed (Right): annotations and concrete

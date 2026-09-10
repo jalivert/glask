@@ -59,9 +59,9 @@ infer'pat (P'Con name patterns) expected = do
       check'arg (p, p't) = check'pattern p p't
 
 -- PTIART
-infer'pat p@(P'Lit lit) expected = do
-  (preds, type') <- infer'lit lit expected
-  return (p, preds, type', [])
+infer'pat (P'Lit lit) expected = do
+  (lit', preds, type') <- infer'lit lit expected
+  return (P'Lit lit', preds, type', [])
 
 -- PTIART
 infer'pat (P'As name pattern) Infer = do
