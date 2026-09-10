@@ -453,6 +453,62 @@ do'prim'op "int#/" (Data "(,)" [first'p, second'p]) = do
     (_, Left err) -> return (Left err)
     _ -> return (Left (Unexpected "Evaluation Error: Primitive Operation 'int#/' applied to something bad"))
 
+do'prim'op "double#+" (Data "(,)" [first'p, second'p]) = do
+  -- I force both promises to get the exact doubles
+  r'fst <- force first'p
+  r'snd <- force second'p
+  -- now I pattern match on them and expect both of them to be literals
+  case (r'fst, r'snd) of
+    (Right (Literal (Lit'Double i)), Right (Literal (Lit'Double e))) -> do
+      -- now I just add those together and return the result as a value
+      let sum = i + e
+      return (Right (Literal (Lit'Double sum)))
+    (Left err, _) -> return (Left err)
+    (_, Left err) -> return (Left err)
+    _ -> return (Left (Unexpected "Evaluation Error: Primitive Operation 'double#+' applied to something bad"))
+
+do'prim'op "double#-" (Data "(,)" [first'p, second'p]) = do
+  -- I force both promises to get the exact doubles
+  r'fst <- force first'p
+  r'snd <- force second'p
+  -- now I pattern match on them and expect both of them to be literals
+  case (r'fst, r'snd) of
+    (Right (Literal (Lit'Double i)), Right (Literal (Lit'Double e))) -> do
+      -- now I just subtract those together and return the result as a value
+      let diff = i - e
+      return (Right (Literal (Lit'Double diff)))
+    (Left err, _) -> return (Left err)
+    (_, Left err) -> return (Left err)
+    _ -> return (Left (Unexpected "Evaluation Error: Primitive Operation 'double#-' applied to something bad"))
+
+do'prim'op "double#*" (Data "(,)" [first'p, second'p]) = do
+  -- I force both promises to get the exact doubles
+  r'fst <- force first'p
+  r'snd <- force second'p
+  -- now I pattern match on them and expect both of them to be literals
+  case (r'fst, r'snd) of
+    (Right (Literal (Lit'Double i)), Right (Literal (Lit'Double e))) -> do
+      -- now I just multiply those together and return the result as a value
+      let prod = i * e
+      return (Right (Literal (Lit'Double prod)))
+    (Left err, _) -> return (Left err)
+    (_, Left err) -> return (Left err)
+    _ -> return (Left (Unexpected "Evaluation Error: Primitive Operation 'double#*' applied to something bad"))
+
+do'prim'op "double#/" (Data "(,)" [first'p, second'p]) = do
+  -- I force both promises to get the exact doubles
+  r'fst <- force first'p
+  r'snd <- force second'p
+  -- now I pattern match on them and expect both of them to be literals
+  case (r'fst, r'snd) of
+    (Right (Literal (Lit'Double i)), Right (Literal (Lit'Double e))) -> do
+      -- now I just divide those together and return the result as a value
+      let quot = i / e
+      return (Right (Literal (Lit'Double quot)))
+    (Left err, _) -> return (Left err)
+    (_, Left err) -> return (Left err)
+    _ -> return (Left (Unexpected "Evaluation Error: Primitive Operation 'double#/' applied to something bad"))
+
 do'prim'op "int#<" (Data "(,)" [first'p, second'p]) = do
   -- I force both promises to get the exact integers
   r'fst <- force first'p

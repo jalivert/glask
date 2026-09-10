@@ -206,7 +206,6 @@ expr'cases =
   , ("non-bool if condition", ev'arith, "if 1 then 2 else 3", ["didn't find any instances", "'Num'", "'Bool'"])
   , ("over-applying the identity", ev'arith, "(\\x -> x) 1 2", ["didn't find any instances", "'Num'"])
   , ("equality of tuples", ev'arith, "(1, 2) == (1, 2)", ["didn't find any instances", "'Eq'"])
-  , ("unimplemented double primitive", ev'arith, "double'd + double'd", ["not implemented yet", "double#+"])
   , ("division operator not in scope", ev'arith, "10 / 2", ["Data Not In Scope /"])
   , ("cons onto non-list", ev'lazy, "length (1 : 2)", ["didn't find any instances", "'Num'"])
   , ("take of non-list", ev'lazy, "length (take 1 2)", ["didn't find any instances", "'Num'"])

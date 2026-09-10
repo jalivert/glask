@@ -151,6 +151,9 @@ eval'cases =
   , ("mixed precedence chain", ev'arith, "1 + 2 * 3 - 4", Literal (Lit'Int 3))
   , ("matching nested require", matching, "require (require 2)", Literal (Lit'Int 2))
   , ("negated comparison", ev'arith, "not (3 > 4)", Data "True" [])
+  , ("double addition", ev'arith, "double'd + double'd", Literal (Lit'Double 5.0))
+  , ("double subtraction", ev'arith, "double'd - double'd", Literal (Lit'Double 0.0))
+  , ("double multiplication", ev'arith, "double'd * double'd", Literal (Lit'Double 6.25))
   ]
   where
     ev'arith = "./examples/positive/evaluate/ev-arith.glask"
