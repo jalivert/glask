@@ -421,6 +421,18 @@ unify'pair tuple't = do
   return (first't, second't)
 
 
+unify'tuple :: Int -> Rho'Type -> Type'Check [Rho'Type]
+unify'tuple num (T'Tuple types)
+  | length types == num
+  = return types
+
+unify'tuple num tuple't = do
+  types <- mapM (const fresh'meta) [1 .. num]
+  let constraint = tuple't `Unify` T'Tuple types
+  add'constraints [constraint]
+  return types
+
+
 {-  OUTWARD INVARIANT: All meta type variables have kind `*`. -}
 fresh'meta :: Type'Check Type
 fresh'meta = do

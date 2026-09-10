@@ -222,6 +222,7 @@ expr'cases =
   , ("times not in scope in matching", matching, "int * 2", ["Data Not In Scope *"])
   , ("times not in scope in arith", arith, "3 * 4", ["Data Not In Scope *"])
   , ("minus not in scope in arith", arith, "2 - 1", ["Data Not In Scope -"])
+  , ("tuple length mismatch", matching, "((1, 2, 3) :: (Int, Bool))", ["[Shape]", "Couldn't match type"])
   , ("bool equality test", ev'nest, "if'nest True", ["didn't find any instances", "'Num'", "'Bool'"])
   , ("fibonacci of char", ev'nest, "fib 'a'", ["didn't find any instances", "'Num'", "'Char'"])
   , ("postfix applied to literal", ev'ops, "5 ???", ["didn't find any instances", "'Num'"])

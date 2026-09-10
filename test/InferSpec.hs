@@ -242,6 +242,9 @@ cases =
   , ("172 prenex inline join applied", branch, "(if True then br1 else br2) 'a' 1 'b'", "Int")
   , ("175 records partial application", records, "Rec 1 Nothing", "(forall a (b :: * -> *) . b a -> Record b a)")
   , ("176 phantom const lambda", phantom, "\\x y -> Ph", "(forall a b c . a -> b -> Phantom c)")
+  , ("177 triple tuple", bool, "(1, True, 'a')", "(forall a . Num a => (a, Bool, Char))")
+  , ("178 numeric triple", bool, "(1, 2, 3)", "(forall a b c . (Num c, Num b, Num a) => (a, b, c))")
+  , ("179 annotated triple", bool, "((1, True, 'a') :: (Int, Bool, Char))", "(Int, Bool, Char)")
   ]
   where
     bool      = "./examples/positive/data/bool.glask"

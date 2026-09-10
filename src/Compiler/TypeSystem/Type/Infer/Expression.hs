@@ -4,7 +4,7 @@
 module Compiler.TypeSystem.Type.Infer.Expression where
 
 
-import Control.Monad ( foldM )
+import Control.Monad ( foldM, zipWithM )
 import Control.Monad.Except ( MonadError(throwError) )
 import Data.Foldable ( find )
 import Control.Monad.State ( MonadState(put, get) )
@@ -31,7 +31,7 @@ import Compiler.TypeSystem.Type.Infer.Pattern ( infer'pat, infer'pattern, check'
 import {-# SOURCE #-} Compiler.TypeSystem.Type.Infer.Match ( infer'match, tc'matches )
 import {-# SOURCE #-} Compiler.TypeSystem.Type.Infer.Declaration ( infer'decls )
 
-import Compiler.TypeSystem.Utils.Infer ( with, lookup't'env, {- merge'into't'env -} inst'sigma, unify'fun, check'sigma, infer'rho, check'rho, subs'check, instantiate, lookup'in'overloaded, unify'pair, fresh'meta )
+import Compiler.TypeSystem.Utils.Infer ( with, lookup't'env, {- merge'into't'env -} inst'sigma, unify'fun, check'sigma, infer'rho, check'rho, subs'check, instantiate, lookup'in'overloaded, unify'tuple, fresh'meta )
 import Compiler.TypeSystem.Expected ( Expected (Infer, Check) )
 import Compiler.TypeSystem.Actual ( Actual (Checked, Inferred) )
 import Compiler.TypeSystem.Kind.Infer.Annotation ( kind'specify )
@@ -218,33 +218,14 @@ infer'expr (Infix'App left op right) expected = do
     The type of the result will then be a type of the whole expression.
   -}
 
--- TODO: IMPLEMENT
-infer'expr (Tuple [expr'a, expr'b]) Infer = do
-  -- TODO: just infer those two types and put them in the tupple type I guess
-  (expr'a', preds'a, type'a) <- infer'rho expr'a
-  (expr'b', preds'b, type'b) <- infer'rho expr'b
-  return (Tuple [expr'a', expr'b'], preds'a ++ preds'b, Inferred $ T'Tuple [type'a, type'b])
+infer'expr (Tuple exprs) Infer = do
+  (exprs', predss, types) <- unzip3 <$> mapM infer'rho exprs
+  return (Tuple exprs', concat predss, Inferred $ T'Tuple types)
 
-infer'expr (Tuple [expr'a, expr'b]) (Check t) = do
-  -- TODO: how do we do that?
-  -- I need to write a function, which will unify the expected type with a two-ple type
-  -- the two-ple type will contain two type variables right? similar to the function which unifies with function type
-  -- 
-  (type'a, type'b) <- unify'pair t
-  (expr'a', preds'a) <- check'rho expr'a type'a
-  (expr'b', preds'b) <- check'rho expr'b type'b
-
-  return (Tuple [expr'a', expr'b'], preds'a ++ preds'b, Checked)
-
--- TODO: IMPLEMENT
-infer'expr (Tuple exprs) expected = do
-  undefined
-  -- (preds, types, cs) <- foldM infer' ([], [], []) exprs
-  -- return (preds, T'Tuple $ reverse types, cs)
-  --   where
-  --     infer' (preds, types, constrs) expr = do
-  --       (preds, t, cs) <- infer'expr expr
-  --       return (preds, t : types, cs ++ constrs)
+infer'expr (Tuple exprs) (Check t) = do
+  types <- unify'tuple (length exprs) t
+  (exprs', predss) <- unzip <$> zipWithM check'rho exprs types
+  return (Tuple exprs', concat predss, Checked)
 
 infer'expr (If condition then' else') Infer = do
   (condition', preds) <- check'rho condition t'Bool
