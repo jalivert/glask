@@ -312,6 +312,7 @@ parse'cases =
   , ("operators-infix", ex "operators/infix.glask", pg "operators-infix")
   , ("operators-prefix", ex "operators/prefix.glask", pg "operators-prefix")
   , ("operators-prefix-postfix", ex "operators/prefix-postfix.glask", pg "operators-prefix-postfix")
+  , ("operators-pizza", ex "operators/pizza.glask", pg "operators-pizza")
   , ("prenex-branch", ex "prenex/branch.glask", pg "prenex-branch")
   , ("prenex-local", ex "prenex/local.glask", pg "prenex-local")
   , ("prenex-nested", ex "prenex/nested.glask", pg "prenex-nested")

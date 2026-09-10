@@ -24,6 +24,91 @@ program is a module of declarations: fixity declarations, type classes with inst
 no compiler backend; programs are elaborated into a small core language and run by a non-strict
 interpreter with an interactive REPL.
 
+## Syntax
+
+A program is a module: a header (`module Main where`) followed by declarations.
+There are seven kinds: fixity signatures, type classes, instances, data types,
+type synonyms, type signatures, and bindings. Blocks use implicit layout —
+braces and semicolons are accepted but never required:
+
+```haskell
+module Main where
+class Num a where
+  (+) :: a -> a -> a
+
+instance Num Int where
+  (+) x y = int#+ (x, y)
+```
+
+Every program in `examples/positive` exists in both notations (the layout
+variant lives next to the original as `*.layout.glask`).
+
+### Operators with any fixity
+
+This is where Glask departs from Haskell. Operators come in three fixities —
+prefix, infix, postfix — each with an associativity (left, right, none) and a
+precedence (0–9). That includes unary operators: a prefix operator can be left
+associative, a postfix one right associative, and an implicit rule picks the
+only sensible reading. Any ordinary function doubles as an operator when
+wrapped in backticks — including prefix and postfix ones, which Haskell does
+not allow. Application chains are resolved by the author's own variation of
+Dijkstra's shunting-yard algorithm (thesis §1.8 and §2.3.3), extended with
+unary operators and same-precedence mixing. One rule to know: an operator used
+in an expression needs a fixity declaration in scope.
+
+The thesis introduces the triangle `|>`; combined with a postfix `!` over an
+ordinary infix `+`, precedence alone disambiguates the chain:
+
+```haskell
+prefix 9 |>
+postfix 9 !
+infixl 5 +
+
+(|>) :: Int -> Int
+(|>) x = x
+
+(!) :: Int -> Int
+(!) x = x
+
+expr = |> 1 + 2 !
+```
+
+`expr` parses as `(|> 1) + (2 !)` and evaluates to `3`.
+
+Pushing the flexibility further is the author's pizza operator `(>`, named for
+the slice it resembles (`examples/positive/operators/pizza.glask`): a
+right-associative infix sitting below `-`, so the slice takes the whole
+right-hand side:
+
+```haskell
+infixl 6 -
+infixr 3 >
+
+(>) :: Int -> Int -> Int
+(>) x y = x - y
+
+meal = 10 > 3 - 1
+```
+
+`meal` parses as `10 > (3 - 1)` and evaluates to `8`. Note the fixity
+declaration names the bare operator: `infixr 3 >`.
+
+And a backticked function as a weak prefix operator (thesis §1.8, live in
+`examples/prelude/protolude.glask` as ``prefixr 0 `print` ``):
+
+```haskell
+infixl 5 +
+
+prefix 0 `print`
+
+print :: Int -> Int
+print x = x
+
+shout = `print` 1 + 2
+```
+
+`shout` parses as `` `print` (1 + 2) `` and evaluates to `3`.
+
 ## A tour
 
 Declarations use implicit layout instead of explicit braces (every example below

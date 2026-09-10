@@ -1,0 +1,14 @@
+module Main where
+class Num a where
+  (-) :: a -> a -> a
+
+instance Num Int where
+  (-) x y = int#- (x, y)
+
+infixl 6 -
+infixr 3 >
+
+(>) :: Int -> Int -> Int
+(>) x y = x - y
+
+meal = 10 > 3 - 1

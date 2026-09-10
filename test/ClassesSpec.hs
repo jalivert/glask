@@ -89,6 +89,7 @@ tc'positive =
   , "./examples/positive/operators/prefix.glask"
   , "./examples/positive/operators/prefix-postfix.glask"
   , "./examples/positive/operators/implicit.glask"
+  , "./examples/positive/operators/pizza.glask"
   , "./examples/positive/layout/basic.glask"
   , "./examples/positive/data/bool.glask"
   , "./examples/positive/data/records.glask"
