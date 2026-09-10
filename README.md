@@ -179,36 +179,50 @@ infixl 7 *
 infixl 7 /
 infix 4 ==
 infixr 5 :
+
 class Num a where
   (+) :: a -> a -> a
   (-) :: a -> a -> a
   (*) :: a -> a -> a
+
 instance Num Int where
   (+) x y = int#+ (x, y)
   (-) x y = int#- (x, y)
   (*) x y = int#* (x, y)
+
 class Div a where
   (/) :: a -> a -> a
+
 instance Div Int where
   (/) x y = int#/ (x, y)
+
 class Eq a where
   (==) :: a -> a -> Bool
+
 instance Eq Int where
   (==) x y = int#== (x, y)
+
 data Bool = True | False
+
 not True = False
 not False = True
+
 mod :: Int -> Int -> Int
 mod x y = x - (x / y) * y
+
 divides :: Int -> Int -> Bool
 divides d n = mod n d == 0
+
 from :: Int -> [Int]
 from n = n : from (n + 1)
+
 filter :: (a -> Bool) -> [a] -> [a]
 filter _ [] = []
 filter p (x : xs) = if p x then x : filter p xs else filter p xs
+
 sieve :: [Int] -> [Int]
 sieve (p : xs) = p : sieve (filter (\ x -> not (divides p x)) xs)
+
 primes :: [Int]
 primes = sieve (from 2)
 ```
@@ -234,41 +248,54 @@ at two types, the dictionary-passing benchmark:
 infixl 6 +
 infixl 7 *
 infixl 6 <+>
+
 class Num a where
   (+) :: a -> a -> a
   (-) :: a -> a -> a
   (*) :: a -> a -> a
+
 instance Num Int where
   (+) x y = int#+ (x, y)
   (-) x y = int#- (x, y)
   (*) x y = int#* (x, y)
+
 class Arith a where
   lit :: Int -> a
   add :: a -> a -> a
   mul :: a -> a -> a
+
 data Expr = Lit Int | Add Expr Expr | Mul Expr Expr
+
 instance Arith Expr where
   lit n = Lit n
   add x y = Add x y
   mul x y = Mul x y
+
 instance Arith Int where
   lit n = n
   add x y = x + y
   mul x y = x * y
+
 (<+>) :: Expr -> Expr -> Expr
 (<+>) x y = Add x y
+
 prog :: Arith a => a
 prog = add (lit 2) (mul (lit 3) (lit 4))
+
 answer'int :: Int
 answer'int = prog
+
 answer'expr :: Expr
 answer'expr = prog
+
 sugared :: Expr
 sugared = Lit 1 <+> Lit 2
+
 eval'expr :: Expr -> Int
 eval'expr (Lit n) = n
 eval'expr (Add x y) = eval'expr x + eval'expr y
 eval'expr (Mul x y) = eval'expr x * eval'expr y
+
 check = eval'expr answer'expr
 ```
 
@@ -294,24 +321,31 @@ cannot express:
 
 ```haskell
 infixl 6 +
+
 class Num a where
   (+) :: a -> a -> a
   (-) :: a -> a -> a
   (*) :: a -> a -> a
+
 instance Num Int where
   (+) x y = int#+ (x, y)
   (-) x y = int#- (x, y)
   (*) x y = int#* (x, y)
+
 instance Num Double where
   (+) x y = double#+ (x, y)
   (-) x y = double#- (x, y)
   (*) x y = double#* (x, y)
+
 class Fractional a
 instance Fractional Double
+
 inc :: Num a => a -> a
 inc x = x + x
+
 apply'both :: (forall a . Num a => a -> a) -> (Int, Double)
 apply'both h = (h 1, h 2.5)
+
 both = apply'both inc
 ```
 
