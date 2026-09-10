@@ -288,6 +288,45 @@ glask λ > :t answer'expr
 A bare `prog` query is ambiguous — no use site selects a dictionary — and the
 compiler reports it instead of guessing.
 
+A rank-2 applicator (`showcase/rankn.glask`) — one polymorphic argument used
+at two different types in a single body, which a prenex rank-1 signature
+cannot express:
+
+```haskell
+infixl 6 +
+class Num a where
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+instance Num Int where
+  (+) x y = int#+ (x, y)
+  (-) x y = int#- (x, y)
+  (*) x y = int#* (x, y)
+instance Num Double where
+  (+) x y = double#+ (x, y)
+  (-) x y = double#- (x, y)
+  (*) x y = double#* (x, y)
+class Fractional a
+instance Fractional Double
+inc :: Num a => a -> a
+inc x = x + x
+apply'both :: (forall a . Num a => a -> a) -> (Int, Double)
+apply'both h = (h 1, h 2.5)
+both = apply'both inc
+```
+
+```
+glask λ > first'both
+          2
+glask λ > :t apply'both
+          apply'both :: (forall a . Num a => a -> a) -> (Int, Double)
+```
+
+(The transcript also checks `:t both`.) The rank-1 spelling of the same
+program — `apply'mono :: Num a => (a -> a) -> (Int, Double)` — is rejected:
+once `a` is fixed, it cannot be both `Int` and `Double`
+(`examples/negative/rank/one.glask`, covered by the test suite).
+
 ## The type system
 
 Type classes elaborate by dictionary passing (thesis §1.9 and §2.5):
@@ -374,7 +413,7 @@ $ cabal test all
 ```
 
 The test suite typechecks every program in `examples/positive`, evaluates selected
-terms, and checks inferred schemes — currently 1096 examples, 0 failures. Each
+terms, and checks inferred schemes — currently 1112 examples, 0 failures. Each
 `*.layout.glask` twin additionally has a parse golden snapshot.
 
 ## Project structure
@@ -394,8 +433,8 @@ src/REPL               file loading, the interactive loop, expression queries
 examples/positive      tested example programs, grouped by feature
                        (`*.layout.glask` twins cover implicit layout)
 examples/positive/showcase
-                       flagship programs: a lazy prime sieve and an
-                       overloaded arithmetic DSL
+                       flagship programs: a lazy prime sieve, an
+                       overloaded arithmetic DSL, and a rank-2 applicator
 examples/prelude       the REPL preludes (`prelude`, `protolude`, …)
 examples/scratch       untried example drafts
 examples/negative      programs that must fail (typecheck or parse)

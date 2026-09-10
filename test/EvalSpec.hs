@@ -162,10 +162,13 @@ eval'cases =
   , ("overloaded program at Int", showcase'expr, "answer'int", Literal (Lit'Int 14))
   , ("overloaded program agrees through Expr", showcase'expr, "check", Literal (Lit'Int 14))
   , ("custom operator builds the tree", showcase'expr, "eval'expr sugared", Literal (Lit'Int 3))
+  , ("rank-2 use at Int", showcase'rankn, "first'both", Literal (Lit'Int 2))
+  , ("rank-2 use at Double", showcase'rankn, "second'both", Literal (Lit'Double 5.0))
   ]
   where
     showcase'sieve = "./examples/positive/showcase/sieve.glask"
     showcase'expr  = "./examples/positive/showcase/expr.glask"
+    showcase'rankn = "./examples/positive/showcase/rankn.glask"
     ev'arith = "./examples/positive/evaluate/ev-arith.glask"
     ev'lazy  = "./examples/positive/evaluate/ev-lazy.glask"
     ev'data  = "./examples/positive/evaluate/ev-data.glask"

@@ -1,0 +1,18 @@
+-- parse dump: ./examples/positive/showcase/rankn.layout.glask
+-- decls: 16 ["Fixity","Class'Decl","Instance","Instance","Class'Decl","Instance","Data'Decl","Class'Decl","Instance","Signature","Binding","Signature","Binding","Binding","Binding","Binding"]
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "inc" Term'Id'Var "x" = Not Implemented: Show for Term'Expr
+Not Implemented: Show for Term'Decl
+[[Binding]]    Term'Id'Var "apply'both" Term'Id'Var "h" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "both" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "first'both" = Not Implemented: Show for Term'Expr
+[[Binding]]    Term'Id'Var "second'both" = Not Implemented: Show for Term'Expr

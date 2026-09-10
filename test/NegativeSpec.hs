@@ -113,6 +113,14 @@ spec = do
     it "holes/implicit reports found holes" $
       type'check himpl `shouldReturnSubstring` "Found holes"
 
+    let rankone = "./examples/negative/rank/one.glask"
+    it "rank/one is rejected" $
+      type'check rankone `shouldSatisfyIO` isJust
+    it "rank/one reports a shape mismatch" $
+      type'check rankone `shouldReturnSubstring` "[Shape]"
+    it "rank/one reports the rigid variable" $
+      type'check rankone `shouldReturnSubstring` "Couldn't match type"
+
   describe "ill-typed expressions fail evaluation" $
     mapM_ run'expr expr'cases
 

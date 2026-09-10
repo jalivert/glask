@@ -1,0 +1,3 @@
+-- eval: second'both
+-- in: ./examples/positive/showcase/rankn.glask
+Right (Literal 5.0)

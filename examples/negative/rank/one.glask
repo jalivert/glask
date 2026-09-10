@@ -1,0 +1,19 @@
+module Main where
+{ infixl 6 +
+; class Num a where
+  { (+) :: a -> a -> a
+  ; (-) :: a -> a -> a
+  ; (*) :: a -> a -> a }
+; instance Num Int where
+  { (+) x y = int#+ (x, y)
+  ; (-) x y = int#- (x, y)
+  ; (*) x y = int#* (x, y) }
+; instance Num Double where
+  { (+) x y = double#+ (x, y)
+  ; (-) x y = double#- (x, y)
+  ; (*) x y = double#* (x, y) }
+; class Fractional a
+; instance Fractional Double
+; apply'mono :: Num a => (a -> a) -> (Int, Double)
+; apply'mono h = (h 1, h 2.5)
+}

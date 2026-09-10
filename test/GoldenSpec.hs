@@ -317,6 +317,7 @@ parse'cases =
   , ("prenex-nested", ex "prenex/nested.glask", pg "prenex-nested")
   , ("showcase-sieve", ex "showcase/sieve.glask", pg "showcase-sieve")
   , ("showcase-expr", ex "showcase/expr.glask", pg "showcase-expr")
+  , ("showcase-rankn", ex "showcase/rankn.glask", pg "showcase-rankn")
   , ("annotations-forall-layout", ex "annotations/forall.layout.glask", pg "annotations-forall-layout")
   , ("classes-class-layout", ex "classes/class.layout.glask", pg "classes-class-layout")
   , ("classes-higherkinded-layout", ex "classes/higherkinded.layout.glask", pg "classes-higherkinded-layout")
@@ -342,6 +343,7 @@ parse'cases =
   , ("prenex-nested-layout", ex "prenex/nested.layout.glask", pg "prenex-nested-layout")
   , ("showcase-sieve-layout", ex "showcase/sieve.layout.glask", pg "showcase-sieve-layout")
   , ("showcase-expr-layout", ex "showcase/expr.layout.glask", pg "showcase-expr-layout")
+  , ("showcase-rankn-layout", ex "showcase/rankn.layout.glask", pg "showcase-rankn-layout")
   ]
   where
     ex rel = "./examples/positive/" ++ rel
@@ -391,6 +393,8 @@ eval'cases =
   , ("showcase-tenth-prime", ex "showcase/sieve.glask", "at 9 first'primes", eg "showcase-tenth-prime")
   , ("showcase-answer-int", ex "showcase/expr.glask", "answer'int", eg "showcase-answer-int")
   , ("showcase-check", ex "showcase/expr.glask", "check", eg "showcase-check")
+  , ("showcase-first-both", ex "showcase/rankn.glask", "first'both", eg "showcase-first-both")
+  , ("showcase-second-both", ex "showcase/rankn.glask", "second'both", eg "showcase-second-both")
   ]
   where
     ex rel = "./examples/positive/" ++ rel
@@ -441,6 +445,11 @@ repl'cases =
     , ex "showcase/expr.glask"
     , ["answer'int", "check", ":t answer'expr", ":q"]
     , rg "showcase-expr"
+    )
+  , ( "showcase-rankn"
+    , ex "showcase/rankn.glask"
+    , ["first'both", ":t apply'both", ":t both", ":q"]
+    , rg "showcase-rankn"
     )
   ]
   where

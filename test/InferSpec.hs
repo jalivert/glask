@@ -253,6 +253,8 @@ cases =
   , ("183 sieve primes head", sieve, "head primes", "Int")
   , ("184 expr overloaded answer at Int", expr, "answer'int", "Int")
   , ("185 expr tree answer", expr, "answer'expr", "Expr")
+  , ("187 rank-2 applicator", rankn, "apply'both", "(forall a . Num a => a -> a) -> (Int, Double)")
+  , ("188 rank-2 application", rankn, "both", "(Int, Double)")
   ]
   where
     bool      = "./examples/positive/data/bool.glask"
@@ -280,6 +282,7 @@ cases =
     branch    = "./examples/positive/prenex/branch.glask"
     sieve     = "./examples/positive/showcase/sieve.glask"
     expr      = "./examples/positive/showcase/expr.glask"
+    rankn     = "./examples/positive/showcase/rankn.glask"
 
 
 -- Self-contained copy of the `scheme'within` helper pattern from ExamplesSpec:

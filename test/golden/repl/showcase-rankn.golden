@@ -1,0 +1,4 @@
+          2
+          apply'both :: (forall a . Num a => a -> a) -> (Int, Double)
+          both :: (Int, Double)
+Bye!

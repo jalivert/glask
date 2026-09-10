@@ -231,6 +231,24 @@ spec = do
       r <- type'check expr'layout
       r `shouldBe` Nothing
 
+    let rankn = "./examples/positive/showcase/rankn.glask"
+    it (rankn ++ " typechecks") $ do
+      r <- type'check rankn
+      r `shouldBe` Nothing
+
+    it "rank-2 function instantiates at Int" $ do
+      r <- eval'within "first'both" rankn
+      r `shouldBe` Right (Literal (Lit'Int 2))
+
+    it "rank-2 function instantiates at Double" $ do
+      r <- eval'within "second'both" rankn
+      r `shouldBe` Right (Literal (Lit'Double 5.0))
+
+    let rankn'layout = "./examples/positive/showcase/rankn.layout.glask"
+    it (rankn'layout ++ " typechecks") $ do
+      r <- type'check rankn'layout
+      r `shouldBe` Nothing
+
   describe "Testing if with higher-rank branches" $ do
     let file = "./examples/positive/prenex/branch.glask"
     it (file ++ " typechecks") $ do
