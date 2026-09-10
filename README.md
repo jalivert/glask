@@ -26,14 +26,20 @@ interpreter with an interactive REPL.
 
 ## A tour
 
+Declarations use implicit layout instead of explicit braces (every example below
+also exists in brace form in the test suite; layout twins live next to the
+originals as `*.layout.glask`).
+
 Type classes with dictionary passing (`examples/positive/evaluate/arith.glask`):
 
 ```haskell
-; class Num a where
-  { (+) :: a -> a -> a }
+class Num a where
+  (+) :: a -> a -> a
 
-; instance Num Int where
-  { (+) x y = int#+ (x, y) }
+instance Num Int where
+  (+) x y = int#+ (x, y)
+
+infixl 5 +
 ```
 
 The expression `2 + 3` then evaluates to `5` (covered by the test suite).
@@ -42,40 +48,50 @@ Higher-rank polymorphism (`examples/positive/prenex/nested.glask`): a constraine
 function passed as an argument, and a locally-bound annotated binding used at higher rank:
 
 ```haskell
-; apply :: (forall a . Num a => a -> a) -> Int -> Int
-; apply h x = h x
+class Num a where
+  (+) :: a -> a -> a
 
-; inc :: Num a => a -> a
-; inc x = x + x
+instance Num Int where
+  (+) x y = int#+ (x, y)
 
-; t'local'rank = let { loc :: Num a => a -> a
-                     ; loc = \ x -> x + x }
-                 in apply loc 3
+infixl 5 +
+
+apply :: (forall a . Num a => a -> a) -> Int -> Int
+apply h x = h x
+
+inc :: Num a => a -> a
+inc x = x + x
+
+t'local'rank = let loc :: Num a => a -> a
+                   loc = \ x -> x + x
+               in apply loc 3
 ```
 
 Data types and pattern matching (`examples/positive/evaluate/matching.glask`):
 
 ```haskell
-; tail :: [a] -> Maybe [a]
-; tail [] = Nothing
-; tail (a : as) = Just as
+data Maybe a = Nothing | Just a
+
+tail :: [a] -> Maybe [a]
+tail [] = Nothing
+tail (a : as) = Just as
 ```
 
 User-defined operators with custom fixity (`examples/positive/operators/infix.glask`):
 
 ```haskell
-; infixl 5 +
-; infixl 6 *
+infixl 5 +
+infixl 6 *
 
-; program = 1 + 2 * 3
+program = 1 + 2 * 3
 ```
 
 Polymorphic local bindings get per-use dictionaries (`examples/positive/prenex/local.glask`):
 
 ```haskell
-; t'over'poly = let { f :: Ident a => a -> a
-                    ; f = \x -> ident x }
-                in pick (f 5, f True)
+t'over'poly = let f :: Ident a => a -> a
+                  f = \x -> ident x
+              in pick (f 5, f True)
 ```
 
 ## The REPL
@@ -97,7 +113,7 @@ glask λ > apply inc 3
 (The last answer is `show` of `6`: the example `Show Int` instance prints every `Int` as `'a'`.)
 REPL commands: `:t` infers a type scheme, `:k` infers a kind, `:c` shows the elaborated core,
 `:d` shows the desugared expression, `:p` shows the parse, `:q` quits. With no file argument the
-REPL loads `prelude.glask`.
+REPL loads `examples/prelude/prelude.glask`.
 
 ## Building and testing
 
@@ -108,8 +124,9 @@ $ cabal build all
 $ cabal test all
 ```
 
-The test suite (`test/ExamplesSpec.hs`) typechecks every file in `examples/positive`, evaluates
-selected terms, and checks inferred schemes — currently 82 examples, 0 failures.
+The test suite typechecks every program in `examples/positive`, evaluates selected
+terms, and checks inferred schemes — currently 1052 examples, 0 failures. Each
+`*.layout.glask` twin additionally has a parse golden snapshot.
 
 ## Project structure
 
@@ -126,6 +143,10 @@ src/Compiler/TypeSystem
 src/Interpreter        translation to the core language and the lazy evaluator
 src/REPL               file loading, the interactive loop, expression queries
 examples/positive      tested example programs, grouped by feature
+                       (`*.layout.glask` twins cover implicit layout)
+examples/prelude       the REPL preludes (`prelude`, `protolude`, …)
+examples/scratch       untried example drafts
+examples/negative      programs that must fail (typecheck or parse)
 app                    the `glask-exe` entry point
 test                   Hspec suite driving the examples
 ```
